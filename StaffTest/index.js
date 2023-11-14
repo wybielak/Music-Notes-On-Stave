@@ -2,14 +2,39 @@
 let CANVAS
 let SPACING
 
+let MARGIN_LEFT
+let MARGIN_RIGHT
+
 let CLEF_IMAGE = new Image()
 CLEF_IMAGE.src = "treble-clef.png"
 
+let MOUSE = {
+    x: 0,
+    y: 0,
+    isDown: false
+}
+
+let NOTES = ["E6", "D6", "C6", "B5", "A5", "G5", "F5",
+            "E5", "D5", "C5", "B4", "A4", "G4", "F4",
+            "E4", "D4", "C4", "B3", "A3", "G3", "F3"]
+
 function main() { // główna funkcja
     CANVAS = document.getElementById("myStaff")
+    addEventListeners()
     fitToScreen()
+    animate()
+}
+
+function animate() {
+    drawScene()
+    window.requestAnimationFrame(animate)
+}
+
+function addEventListeners() {
+    CANVAS.addEventListener('mousemove', onMouseMove)
+    CANVAS.addEventListener('mousedown', onMouseDown)
+    CANVAS.addEventListener('mouseup', onMouseUp)
     window.addEventListener('resize', fitToScreen)
-    //drawScene();
 }
 
 function fitToScreen() { // ustala rozmiar canvy na cały ekran
@@ -17,11 +42,17 @@ function fitToScreen() { // ustala rozmiar canvy na cały ekran
     CANVAS.height = window.innerHeight
 
     SPACING = CANVAS.height/20 // odległości między liniami
+
+    MARGIN_RIGHT = CANVAS.width * 0.8
+    MARGIN_LEFT = CANVAS.width * 0.2
+
     drawScene()
 }
 
 function drawScene() { // rysowanie pięciolinii
     let ctx = CANVAS.getContext("2d")
+
+    ctx.clearRect(0, 0, CANVAS.width, CANVAS.height)
 
     ctx.strokeStyle = "black"
     ctx.lineWidth = 1
@@ -35,15 +66,16 @@ function drawScene() { // rysowanie pięciolinii
         ctx.stroke()
     }
 
+    let index = Math.round(MOUSE.y/SPACING*2)
+
     let location = {
-        x: CANVAS.width * 0.5,
-        y: CANVAS.height * 0.5
+        x: MARGIN_RIGHT,
+        y: index*SPACING * 0.5
     }
 
     drawNote(ctx, location)
 
-    location.x -= CANVAS.width * 0.3
-    drawClef(ctx, location)
+    drawClef(ctx, {x: MARGIN_LEFT, y: CANVAS.height * 0.5})
 }
 
 function drawNote(ctx, location) { // rysowanie nuty
@@ -83,5 +115,18 @@ function drawClef(ctx, location) { // rysowanie klucza wiolinowego
     let newHeight = CANVAS.height * 0.45
     let newWidth = aspectRatio * newHeight
 
-    ctx.drawImage(CLEF_IMAGE, location.x-newHeight/2, location.y-newHeight/2, newWidth, newHeight)
+    ctx.drawImage(CLEF_IMAGE, location.x-newWidth/2, location.y-newHeight/2, newWidth, newHeight)
+}
+
+function onMouseMove(event) {
+    MOUSE.x = event.x
+    MOUSE.y = event.y
+}
+
+function onMouseDown(event) {
+    MOUSE.isDown = true
+}
+
+function onMouseUp(event) {
+    MOUSE.isDown = false
 }
