@@ -26,6 +26,17 @@ let MOVING_NOTES = []
 
 let AUDIO_CONTEXT
 
+const pianoKeys = document.querySelectorAll(".piano_keys .key"),
+    volumeSlider = document.querySelector(".volume-slider input"),
+    keysCheckbox = document.querySelector(".keys-checkbox input");
+
+const showHideKeys = () => {
+    // alert("showHideKeys function called!");
+    pianoKeys.forEach(key => key.classList.toggle("hide"));
+}
+
+keysCheckbox.addEventListener("click", showHideKeys);
+
 class MovingNote {
     constructor(location) {
         let index = Math.round(location.y/SPACING * 2)
@@ -96,12 +107,13 @@ function addEventListeners() {
 
 function fitToScreen() { // ustala rozmiar canvy na cały ekran
     CANVAS.width = window.innerWidth
-    CANVAS.height = window.innerHeight
+    CANVAS.height = window.innerHeight *0.7
 
     SPACING = CANVAS.height/20 // odległości między liniami
 
     MARGIN_RIGHT = CANVAS.width * 0.8
     MARGIN_LEFT = CANVAS.width * 0.2
+    MARGIN_TOP = CANVAS.height * 0.5  // Przesunięcie w górę do 5% wysokości
 
     drawScene()
 }
@@ -192,3 +204,38 @@ function onMouseDown(event) {
 function onMouseUp(event) {
     MOUSE.isDown = false
 }
+
+
+
+let allKeys = [],
+audio = new Audio(`tunes/a.wav`); // by default, audio src is "a" tune
+
+const playTune = (key) => {
+    audio.src = `tunes/${key}.wav`; // passing audio src based on key pressed 
+    audio.play(); // playing audio
+
+    const clickedKey = document.querySelector(`[data-key="${key}"]`); // getting clicked key element
+    clickedKey.classList.add("active"); // adding active class to the clicked key element
+    setTimeout(() => { // removing active class after 150 ms from the clicked key element
+        clickedKey.classList.remove("active");
+    }, 150);
+}
+
+pianoKeys.forEach(key => {
+    console.log(key)
+    allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
+    // calling playTune function with passing data-key value as an argument
+    key.addEventListener("click", () => playTune(key.dataset.key));
+});
+
+const handleVolume = (e) => {
+    audio.volume = e.target.value; // passing the range slider value as an audio volume
+}
+
+const pressedKey = (e) => {
+    // if the pressed key is in the allKeys array, only call the playTune function
+    if(allKeys.includes(e.key)) playTune(e.key);
+}
+
+volumeSlider.addEventListener("input", handleVolume);
+document.addEventListener("keydown", pressedKey);

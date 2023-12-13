@@ -15,9 +15,57 @@
         
         <canvas id="myStaff">
 
+            
         </canvas>
+        <div class="section__piano"></div>
+            <div class="wrapper">
+                <header>
+                    <h2>PlayPiano</h2>
+                    <div class="column volume-slider">
+                        <span>Volume</span><input type="range" min="0" max="1" value="0.5" step="any">
+                        
+                    </div>
+                    <div class="column keys-checkbox">
+                        <span>Show keys</span><input type="checkbox" checked>  
+                    </div>
+                </header>
 
-        <script src="index.js"></script>
+                <ul class="piano_keys">
+                    <li class="key white" data-key="a"><span>a</span></li>
+                    <li class="key black" data-key="w"><span>w</span></li>
+                    <li class="key white" data-key="s"><span>s</span></li>
+                    <li class="key black" data-key="e"><span>e</span></li>
+                    <li class="key white" data-key="d"><span>d</span></li>
+                    <li class="key white" data-key="f"><span>f</span></li>
+                    <li class="key black" data-key="t"><span>t</span></li>
+                    <li class="key white" data-key="g"><span>g</span></li>
+                    <li class="key black" data-key="y"><span>y</span></li>
+                    <li class="key white" data-key="h"><span>h</span></li>
+                    <li class="key black" data-key="u"><span>u</span></li>
+                    <li class="key white" data-key="j"><span>j</span></li>
+                    <li class="key white" data-key="k"><span>k</span></li>
+                    <li class="key black" data-key="o"><span>o</span></li>
+                    <li class="key white" data-key="l"><span>l</span></li>
+                    <li class="key black" data-key="p"><span>p</span></li>
+                    <li class="key white" data-key=";"><span>;</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <script>
+            // Function to scale the elements
+            function scaleElements(scaleFactor) {
+                const elementsToScale = document.querySelectorAll('.wrapper, .piano_keys, .white, .black, span');
+                elementsToScale.forEach(element => {
+                    element.style.transform = `scale(${scaleFactor})`;
+                });
+            }
+    
+            // Call the function with your desired scale factor
+            // For example, a scale factor of 0.8 will reduce the size to 80%
+            // scaleElements();
+        </script>
+        <script defer src="index.js"></script>
     </body>
 
 </html>
