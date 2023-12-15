@@ -208,10 +208,10 @@ function onMouseUp(event) {
 
 
 let allKeys = [],
-audio = new Audio(`tunes/a.wav`); // by default, audio src is "a" tune
+audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
 
 const playTune = (key) => {
-    audio.src = `tunes/${key}.wav`; // passing audio src based on key pressed 
+    audio.src = `tune/${key}.wav`; // passing audio src based on key pressed 
     audio.play(); // playing audio
 
     const clickedKey = document.querySelector(`[data-key="${key}"]`); // getting clicked key element
@@ -232,10 +232,45 @@ const handleVolume = (e) => {
     audio.volume = e.target.value; // passing the range slider value as an audio volume
 }
 
+// Mapa łącząca kody klawiszy z odpowiadającymi wartościami data-key
+const keyMap = {
+    'q': 'key10',
+    '1': 'key11',
+    'w': 'key12',
+    '2': 'key02',
+    'e': 'key13',
+    'r': 'key14',
+    '3': 'key03',
+    't': 'key15',
+    '4': 'key04',
+    'y': 'key16',
+    '5': 'key05',
+    'u': 'key17',
+    'i': 'key18',
+    '6': 'key06',
+    'o': 'key19',
+    '7': 'key07',
+    'p': 'key20',
+    'z': 'key21',
+    '8': 'key08',
+    'x': 'key22',
+    '9': 'key09',
+    'c': 'key23',
+    '0': 'key10',
+    'v': 'key24'
+};
+
 const pressedKey = (e) => {
-    // if the pressed key is in the allKeys array, only call the playTune function
-    if(allKeys.includes(e.key)) playTune(e.key);
+    // czy klawisz istnieje w mapie
+    if (keyMap.hasOwnProperty(e.key)) {
+        // uzyskaj odpowiadającą mu wartość data-key
+        const dataKey = keyMap[e.key];
+
+        // playTune z uzyskana wartością data-key
+        playTune(dataKey);
+    }
 }
+
 
 volumeSlider.addEventListener("input", handleVolume);
 document.addEventListener("keydown", pressedKey);
