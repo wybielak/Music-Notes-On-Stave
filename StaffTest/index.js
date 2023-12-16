@@ -2,6 +2,8 @@
 let CANVAS
 let SPACING
 
+let MODE = 0 // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
+
 let MARGIN_LEFT
 let MARGIN_RIGHT
 
@@ -95,7 +97,7 @@ function main() { // główna funkcja
 
 function animate() {
     updateMovingNotes()
-    drawScene()
+    drawScene('black')
     window.requestAnimationFrame(animate)
 }
 
@@ -164,8 +166,9 @@ function drawScene() { // rysowanie pięciolinii
 }
 
 function drawNote(ctx, location) { // rysowanie nuty
-    ctx.fillStyle="black"
-    ctx.strokeStyle = "black"
+
+    ctx.fillStyle = 'black'
+    ctx.strokeStyle = 'black'
     ctx.lineWidth = 1
 
     ctx.beginPath() // rysowanie linii pionowej
@@ -204,20 +207,20 @@ function drawClef(ctx, location) { // rysowanie klucza wiolinowego
 }
 
 function onMouseMove(event) {
-    MOUSE.x = event.x
-    MOUSE.y = event.y
+    if (MODE == 1) MOUSE.x = event.x
+    if (MODE == 1) MOUSE.y = event.y
 }
 
 function onMouseDown(event) {
-    MOUSE.isDown = true
+    if (MODE == 1) MOUSE.isDown = true
 
-    var movingNote = new MovingNote()
-    movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
-    MOVING_NOTES.push(movingNote)
+    if (MODE == 1) var movingNote = new MovingNote()
+    if (MODE == 1) movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
+    if (MODE == 1) MOVING_NOTES.push(movingNote)
 }
 
 function onMouseUp(event) {
-    MOUSE.isDown = false
+    if (MODE == 1) MOUSE.isDown = false
 }
 
 
@@ -238,7 +241,7 @@ const playTune = (key) => {
 
 const playTune2 = (index) => {
 
-    if (AUDIO_CONTEXT == null) {
+    /*if (AUDIO_CONTEXT == null) {
         AUDIO_CONTEXT = new(AudioContext || webkitAudioContext || window.webkitAudioContext)()
     }
 
@@ -255,18 +258,22 @@ const playTune2 = (index) => {
     oscylator.start(AUDIO_CONTEXT.currentTime)
     oscylator.stop(AUDIO_CONTEXT.currentTime+duration)
     oscylator.connect(gainNode)
-    gainNode.connect(AUDIO_CONTEXT.destination)
+    gainNode.connect(AUDIO_CONTEXT.destination)*/
 
-    var movingNote = new MovingNote()
-    movingNote.add2(index)
-    MOVING_NOTES.push(movingNote)
+    if (MODE == 0) {
+        var movingNote = new MovingNote()
+        movingNote.add2(index)
+        MOVING_NOTES.push(movingNote)
+    }
 }
 
 pianoKeys.forEach(key => {
     console.log(key)
-    allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
-    // calling playTune function with passing data-key value as an argument
-    key.addEventListener("click", () => playTune2(keyMap[key.dataset.key]));
+    if (key.dataset.key != 'black') {
+        allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
+        // calling playTune function with passing data-key value as an argument
+        key.addEventListener("click", () => playTune2(keyMap[key.dataset.key]));
+    }
 });
 
 const handleVolume = (e) => {
@@ -276,34 +283,34 @@ const handleVolume = (e) => {
 // Mapa łącząca kody klawiszy z odpowiadającymi wartościami data-key
 const keyMap = {
     'q': 16,
-    '1': '',
+    'black': '',
     'w': 15,
-    '2': '',
+    'black': '',
     'e': 14,
     'r': 13,
-    '3': '',
+    'black': '',
     't': 12,
-    '4': '',
+    'black': '',
     'y': 11,
-    '5': '',
+    'black': '',
     'u': 10,
     'i': 9,
-    '6': '',
+    'black': '',
     'o': 8,
-    '7': '',
+    'black': '',
     'p': 7,
     'z': 6,
-    '8': '',
+    'black': '',
     'x': 5,
-    '9': '',
+    'black': '',
     'c': 4,
-    '0': '',
+    'black': '',
     'v': 3
 };
 
 const pressedKey = (e) => {
     // czy klawisz istnieje w mapie
-    if (keyMap.hasOwnProperty(e.key)) {
+    if (keyMap.hasOwnProperty(e.key) & e.key != 'black') {
         // uzyskaj odpowiadającą mu wartość data-key
         const dataKey = keyMap[e.key];
         // playTune z uzyskana wartością data-key
@@ -314,3 +321,17 @@ const pressedKey = (e) => {
 
 volumeSlider.addEventListener("input", handleVolume);
 document.addEventListener("keydown", pressedKey);
+
+
+var piano_mode_btn = document.querySelector('.piano-mode')
+var drag_mode_btn = document.querySelector('.drag-mode')
+
+piano_mode_btn.addEventListener('click',() => {
+    alert('piano mode')
+    MODE = 0
+})
+
+drag_mode_btn.addEventListener('click',() => {
+    alert('drag and play mode')
+    MODE = 1
+})
