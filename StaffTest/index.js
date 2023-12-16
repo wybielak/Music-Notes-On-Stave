@@ -71,7 +71,7 @@ class MovingNote {
             AUDIO_CONTEXT = new(AudioContext || webkitAudioContext || window.webkitAudioContext)()
         }
 
-        let duration = 1
+        let duration = 2
         let oscylator = AUDIO_CONTEXT.createOscillator()
         let gainNode = AUDIO_CONTEXT.createGain()
 
