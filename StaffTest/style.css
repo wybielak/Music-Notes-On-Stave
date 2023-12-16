@@ -183,12 +183,14 @@ header h2 {
     z-index: 2;
     margin: 0 -22px 0 -22px;
     border-radius: 0 0 0.55rem 0.55rem;
-    background: linear-gradient(#333 96%, #000 4%);
+    /*background: linear-gradient(#333 96%, #000 4%);*/
+    background: #4e4e4e;
 }
 
 .piano_keys .black:active {
     box-shadow: inset -5px 5px 10px rgba(255, 255, 255, 0.1);
-    background: linear-gradient(to bottom, #000, #444);
+    /*background: linear-gradient(to bottom, #000, #444);*/
+    background: #4e4e4e;
 }
 
 .piano_keys span {

@@ -38,15 +38,25 @@ const showHideKeys = () => {
 keysCheckbox.addEventListener("click", showHideKeys);
 
 class MovingNote {
-    constructor(location) {
+
+    add1(location) { // stary konstruktor
         
         let index = Math.round(location.y/SPACING * 2)
-        //alert(index- Math.round(NOTES.length/2)+1)
         this.frequency = FREQ[index - Math.round(NOTES.length/2)+1]
         this.note = NOTES[index - Math.round(NOTES.length/2)+1]
         this.location = {
             x: location.x,
             y: index*SPACING * 0.5
+        }
+    }
+
+    add2(index) {
+        index = index + Math.round(NOTES.length/2)-1
+        this.frequency = FREQ[index - Math.round(NOTES.length/2)+1]
+        this.note = NOTES[index - Math.round(NOTES.length/2)+1]
+        this.location = {
+            x: MARGIN_RIGHT,
+            y: index * SPACING * 0.5
         }
     }
 
@@ -200,7 +210,10 @@ function onMouseMove(event) {
 
 function onMouseDown(event) {
     MOUSE.isDown = true
-    MOVING_NOTES.push(new MovingNote({x: MARGIN_RIGHT, y: MOUSE.y}))
+
+    var movingNote = new MovingNote()
+    movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
+    MOVING_NOTES.push(movingNote)
 }
 
 function onMouseUp(event) {
@@ -223,7 +236,8 @@ const playTune = (key) => {
     }, 150);
 }
 
-const playTune2 = (freq) => {
+const playTune2 = (index) => {
+
     if (AUDIO_CONTEXT == null) {
         AUDIO_CONTEXT = new(AudioContext || webkitAudioContext || window.webkitAudioContext)()
     }
@@ -237,18 +251,22 @@ const playTune2 = (freq) => {
     gainNode.gain.linearRampToValueAtTime(0, AUDIO_CONTEXT.currentTime+duration)
 
     oscylator.type = "triangle"
-    oscylator.frequency.value = freq
+    oscylator.frequency.value = FREQ[index]
     oscylator.start(AUDIO_CONTEXT.currentTime)
     oscylator.stop(AUDIO_CONTEXT.currentTime+duration)
     oscylator.connect(gainNode)
     gainNode.connect(AUDIO_CONTEXT.destination)
+
+    var movingNote = new MovingNote()
+    movingNote.add2(index)
+    MOVING_NOTES.push(movingNote)
 }
 
 pianoKeys.forEach(key => {
     console.log(key)
     allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
     // calling playTune function with passing data-key value as an argument
-    key.addEventListener("click", () => playTune2(FREQ[keyMap[key.dataset.key]]));
+    key.addEventListener("click", () => playTune2(keyMap[key.dataset.key]));
 });
 
 const handleVolume = (e) => {
@@ -289,7 +307,7 @@ const pressedKey = (e) => {
         // uzyskaj odpowiadającą mu wartość data-key
         const dataKey = keyMap[e.key];
         // playTune z uzyskana wartością data-key
-        playTune2(FREQ[dataKey]);
+        playTune2(dataKey);
     }
 }
 
