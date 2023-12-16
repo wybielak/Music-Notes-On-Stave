@@ -39,7 +39,9 @@ keysCheckbox.addEventListener("click", showHideKeys);
 
 class MovingNote {
     constructor(location) {
+        
         let index = Math.round(location.y/SPACING * 2)
+        //alert(index- Math.round(NOTES.length/2)+1)
         this.frequency = FREQ[index - Math.round(NOTES.length/2)+1]
         this.note = NOTES[index - Math.round(NOTES.length/2)+1]
         this.location = {
@@ -221,11 +223,32 @@ const playTune = (key) => {
     }, 150);
 }
 
+const playTune2 = (freq) => {
+    if (AUDIO_CONTEXT == null) {
+        AUDIO_CONTEXT = new(AudioContext || webkitAudioContext || window.webkitAudioContext)()
+    }
+
+    let duration = 1
+    let oscylator = AUDIO_CONTEXT.createOscillator()
+    let gainNode = AUDIO_CONTEXT.createGain()
+
+    gainNode.gain.setValueAtTime(0, AUDIO_CONTEXT.currentTime)
+    gainNode.gain.linearRampToValueAtTime(0.4, AUDIO_CONTEXT.currentTime+0.05)
+    gainNode.gain.linearRampToValueAtTime(0, AUDIO_CONTEXT.currentTime+duration)
+
+    oscylator.type = "triangle"
+    oscylator.frequency.value = freq
+    oscylator.start(AUDIO_CONTEXT.currentTime)
+    oscylator.stop(AUDIO_CONTEXT.currentTime+duration)
+    oscylator.connect(gainNode)
+    gainNode.connect(AUDIO_CONTEXT.destination)
+}
+
 pianoKeys.forEach(key => {
     console.log(key)
     allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
     // calling playTune function with passing data-key value as an argument
-    key.addEventListener("click", () => playTune(key.dataset.key));
+    key.addEventListener("click", () => playTune2(FREQ[keyMap[key.dataset.key]]));
 });
 
 const handleVolume = (e) => {
@@ -234,30 +257,30 @@ const handleVolume = (e) => {
 
 // Mapa łącząca kody klawiszy z odpowiadającymi wartościami data-key
 const keyMap = {
-    'q': 'key10',
-    '1': 'key11',
-    'w': 'key12',
-    '2': 'key02',
-    'e': 'key13',
-    'r': 'key14',
-    '3': 'key03',
-    't': 'key15',
-    '4': 'key04',
-    'y': 'key16',
-    '5': 'key05',
-    'u': 'key17',
-    'i': 'key18',
-    '6': 'key06',
-    'o': 'key19',
-    '7': 'key07',
-    'p': 'key20',
-    'z': 'key21',
-    '8': 'key08',
-    'x': 'key22',
-    '9': 'key09',
-    'c': 'key23',
-    '0': 'key10',
-    'v': 'key24'
+    'q': 16,
+    '1': '',
+    'w': 15,
+    '2': '',
+    'e': 14,
+    'r': 13,
+    '3': '',
+    't': 12,
+    '4': '',
+    'y': 11,
+    '5': '',
+    'u': 10,
+    'i': 9,
+    '6': '',
+    'o': 8,
+    '7': '',
+    'p': 7,
+    'z': 6,
+    '8': '',
+    'x': 5,
+    '9': '',
+    'c': 4,
+    '0': '',
+    'v': 3
 };
 
 const pressedKey = (e) => {
@@ -265,9 +288,8 @@ const pressedKey = (e) => {
     if (keyMap.hasOwnProperty(e.key)) {
         // uzyskaj odpowiadającą mu wartość data-key
         const dataKey = keyMap[e.key];
-
         // playTune z uzyskana wartością data-key
-        playTune(dataKey);
+        playTune2(FREQ[dataKey]);
     }
 }
 
