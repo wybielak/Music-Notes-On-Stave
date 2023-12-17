@@ -29,15 +29,21 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     this.mouse.isDown = false;
   }
   @HostListener('window:mousedown', ['$event'])
-  onMouseDown() {
-    this.mouse.isDown = true;
-    this.movingNotes.push(
-      new MovingNote(
-        { x: this.marginRight, y: this.mouse.y },
-        this.spacing,
-        this.drawingService,
-      ),
-    );
+  onMouseDown(event: MouseEvent) {
+    const staffCenterY = this.context.canvas.height / 2;
+    const validMinY = staffCenterY - 5 * this.spacing;
+    const validMaxY = staffCenterY + 5 * this.spacing;
+
+    if (event.y >= validMinY && event.y <= validMaxY) {
+      this.mouse.isDown = true;
+      this.movingNotes.push(
+        new MovingNote(
+          { x: this.marginRight, y: event.y },
+          this.spacing,
+          this.drawingService,
+        ),
+      );
+    }
   }
   @HostListener('window:resize', ['$event'])
   fitToScreen() {
@@ -70,8 +76,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     this.animate = this.animate.bind(this);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.context = this.canvas.nativeElement.getContext('2d');
