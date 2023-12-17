@@ -32,7 +32,7 @@ export class DrawingService {
       location.y - spacing * 0.5 * 2.7,
       location.x + spacing * 0.5 * 2,
       location.y - spacing * 0.5 * 2.7,
-      location.x + spacing * 0.5,
+      location.x + spacing * 0.5 * 1,
       location.y - spacing * 0.5 * 4.5,
     );
     ctx.fill();

@@ -47,7 +47,6 @@ export class MovingNote {
     'G3',
     'F3',
   ];
-  protected mainLocation: Location = new Location();
 
   constructor(
     public location: Location,
@@ -57,12 +56,11 @@ export class MovingNote {
     const index = Math.round((this.location.y / this.spacing) * 2);
     this.frequency = this.freq[index - Math.round(this.notes.length / 2) + 1];
     this.note = this.notes[index - Math.round(this.notes.length / 2) + 1];
-    this.mainLocation.x = this.location.x;
-    this.mainLocation.y = index * this.spacing * 0.5;
+    this.location.y = index * this.spacing * 0.5;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    this.drawingService.drawNote(ctx, this.mainLocation, this.spacing);
+    this.drawingService.drawNote(ctx, this.location, this.spacing);
   }
 
   play() {
@@ -141,7 +139,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected movingNotes: MovingNote[] = [];
   protected clefImage = new Image();
 
-  protected speed: number = 0.05;
+  protected speed: number = 0.005;
   protected spacing: number = 0;
   protected marginRight: number = 0;
   protected marginLeft: number = 0;
@@ -153,12 +151,10 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.canvas);
   }
 
   ngAfterViewInit() {
     this.context = this.canvas.nativeElement.getContext('2d');
-    console.log(this.context.canvas);
     this.fitToScreen();
     this.animate();
   }
@@ -222,6 +218,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   updateMovingNotes() {
     for (let i = 0; i < this.movingNotes.length; i++) {
+      console.log(this.movingNotes[i]);
       this.movingNotes[i].location.x -= this.speed * this.context.canvas.width;
       if (this.movingNotes[i].location.x <= this.marginLeft) {
         this.movingNotes[i].play();
