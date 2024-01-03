@@ -3,6 +3,7 @@ let CANVAS
 let SPACING
 
 let MODE = 1 // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
+let COMPOSE_MODE = 0 // tryb swobodny - 0, tryb układania melodii - 1
 let NOTE_MODE = 4 // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
 
 let MARGIN_LEFT
@@ -17,7 +18,7 @@ let MOUSE = {
     isDown: false
 }
 
-let SPEED = 0.005
+let SPEED = 0.0015
 
 let NOTES = ["E6", "D6", "C6", "B5", "A5", "G5", "F5",
              "E5", "D5", "C5", "B4", "A4", "G4", "F4",
@@ -42,7 +43,7 @@ keysCheckbox.addEventListener("click", showHideKeys);
 
 class MovingNote {
 
-    add1(location) { // stary konstruktor
+    add1(location, value) { // stary konstruktor
         
         let index = Math.round(location.y/SPACING * 2)
         this.frequency = FREQ[index - Math.round(NOTES.length/2)+1]
@@ -51,19 +52,22 @@ class MovingNote {
             x: location.x,
             y: index*SPACING * 0.5
         }
+        this.value = value
     }
 
-    add2(index) {
+    add2(index, value, x = MARGIN_RIGHT) {
         index = index + Math.round(NOTES.length/2)-1
         this.frequency = FREQ[index - Math.round(NOTES.length/2)+1]
         this.note = NOTES[index - Math.round(NOTES.length/2)+1]
         this.location = {
-            x: MARGIN_RIGHT,
+            x: x,
             y: index * SPACING * 0.5
         }
+        this.value = value
     }
 
     draw(ctx) {
+        NOTE_MODE = this.value
         drawNote(ctx, this.location)
     }
 
@@ -106,9 +110,9 @@ function updateMovingNotes() {
     for (let i=0; i<MOVING_NOTES.length; i++) {
         MOVING_NOTES[i].location.x -= SPEED*CANVAS.width
         if (MOVING_NOTES[i].location.x <= MARGIN_LEFT) {
-            MOVING_NOTES[i].play()
-            MOVING_NOTES.splice(i, 1)
-            i--
+          MOVING_NOTES[i].play()
+          MOVING_NOTES.splice(i, 1)
+          i--
         }
     }
 }
@@ -220,7 +224,7 @@ function onMouseDown(event) {
     if (MODE == 1 || MODE == 3) MOUSE.isDown = true
 
     if (MODE == 1 || MODE == 3) var movingNote = new MovingNote()
-    if (MODE == 1 || MODE == 3) movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
+    if (MODE == 1 || MODE == 3) movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y}, NOTE_MODE)
     if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote)
 }
 
@@ -228,10 +232,19 @@ function onMouseUp(event) {
     if (MODE == 1 || MODE == 3) MOUSE.isDown = false
 }
 
+function addAutoNote(note, value, offset) {
+  let index = NOTES.indexOf(note);
+
+  var movingNote = new MovingNote()
+  movingNote.add2(index, value, CANVAS.width + offset)
+
+  MOVING_NOTES.push(movingNote);
+}
 
 
-let allKeys = [],
-audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
+
+let allKeys = []
+//audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
 
 const playTune = (key) => {
     audio.src = `tune/${key}.wav`; // passing audio src based on key pressed 
@@ -267,7 +280,7 @@ const playTune2 = (index) => {
 
     if (MODE == 0 || MODE == 3) {
         var movingNote = new MovingNote()
-        movingNote.add2(index)
+        movingNote.add2(index, NOTE_MODE)
         MOVING_NOTES.push(movingNote)
     }
 }
@@ -370,4 +383,59 @@ quarter_note_btn.addEventListener('click', () => {
 eight_note_btn.addEventListener('click', () => {
   NOTE_MODE = 4
   alert('8')
+})
+
+var freeplay_btn = document.querySelector('.freeplay-mode')
+var compose_btn = document.querySelector('.compose-mode')
+
+freeplay_btn.addEventListener('click', () => {
+  COMPOSE_MODE = 0 
+  alert('free')
+})
+
+compose_btn.addEventListener('click', () => {
+  COMPOSE_MODE = 0 
+  alert('comp')
+})
+
+var record_btn = document.querySelector('.record-mode')
+var play_btn = document.querySelector('.play-mode')
+
+record_btn.addEventListener('click', () => {
+  alert('rec')
+})
+
+play_btn.addEventListener('click', () => { 
+  sum = 0
+  addAutoNote("E4", 4, sum * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 4, sum += 30  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 4, sum += 30  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 3, sum += 10  * CANVAS.width * SPEED*4);
+  
+  addAutoNote("E4", 4, sum += 30   * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 4, sum += 30  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 4, sum += 30  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 10  * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 3, sum += 10  * CANVAS.width * SPEED*4);
+
+  addAutoNote("G4", 4, sum += 30   * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 3, sum += 10   * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 3, sum += 30   * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 30   * CANVAS.width * SPEED*4);
+  addAutoNote("A4", 4, sum += 10   * CANVAS.width * SPEED*4);
+
+  addAutoNote("A4", 3, sum += 10   * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 4, sum += 30   * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 10   * CANVAS.width * SPEED*4);
+  addAutoNote("F4", 4, sum += 30   * CANVAS.width * SPEED*4);
+
+  addAutoNote("G4", 3, sum += 10   * CANVAS.width * SPEED*4);
+  addAutoNote("G4", 3, sum += 30   * CANVAS.width * SPEED*4);
 })
