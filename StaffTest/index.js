@@ -18,7 +18,7 @@ let MOUSE = {
     isDown: false
 }
 
-let SPEED = 0.0015
+let SPEED = 0.005//0.0015
 
 let NOTES = ["E6", "D6", "C6", "B5", "A5", "G5", "F5",
              "E5", "D5", "C5", "B4", "A4", "G4", "F4",
@@ -385,21 +385,80 @@ eight_note_btn.addEventListener('click', () => {
   alert('8')
 })
 
+var Cchord_btn = document.querySelector('.Cchord')
+var Dmchord_btn = document.querySelector('.Dmchord')
+var Emchord_btn = document.querySelector('.Emchord')
+var Fchord_btn = document.querySelector('.Fchord')
+var Gchord_btn = document.querySelector('.Gchord')
+var Amchord_btn = document.querySelector('.Amchord')
+var Hdimchord_btn = document.querySelector('.Hdimchord')
+
+Cchord_btn.addEventListener('click', () => {
+  addAutoNote("C4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("E4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("G4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Dmchord_btn.addEventListener('click', () => {
+  addAutoNote("D4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("F4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("A4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Emchord_btn.addEventListener('click', () => {
+  addAutoNote("E4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("G4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("B4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Fchord_btn.addEventListener('click', () => {
+  addAutoNote("F4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("A4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("C4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Gchord_btn.addEventListener('click', () => {
+  addAutoNote("G4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("B4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("D4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Amchord_btn.addEventListener('click', () => {
+  addAutoNote("A4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("C4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("E4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
+Hdimchord_btn.addEventListener('click', () => {
+  addAutoNote("B4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("D4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+  addAutoNote("F4", NOTE_MODE, 0 * CANVAS.width * SPEED*4);
+})
+
 var freeplay_btn = document.querySelector('.freeplay-mode')
 var compose_btn = document.querySelector('.compose-mode')
 
 freeplay_btn.addEventListener('click', () => {
   COMPOSE_MODE = 0 
   alert('free')
+
+  record_btn.style.display = "None"
+  play_btn.style.display = "None"
 })
 
 compose_btn.addEventListener('click', () => {
-  COMPOSE_MODE = 0 
+  COMPOSE_MODE = 1 
   alert('comp')
+
+  record_btn.style.display = "inline-block"
+  play_btn.style.display = "inline-block"
 })
 
 var record_btn = document.querySelector('.record-mode')
 var play_btn = document.querySelector('.play-mode')
+
+record_btn.style.display = "None"
+play_btn.style.display = "None"
 
 record_btn.addEventListener('click', () => {
   alert('rec')
