@@ -2,7 +2,8 @@
 let CANVAS
 let SPACING
 
-let MODE = 0 // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
+let MODE = 1 // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
+let NOTE_MODE = 4 // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
 
 let MARGIN_LEFT
 let MARGIN_RIGHT
@@ -171,21 +172,25 @@ function drawNote(ctx, location) { // rysowanie nuty
     ctx.strokeStyle = 'black'
     ctx.lineWidth = 1
 
-    ctx.beginPath() // rysowanie linii pionowej
-    ctx.moveTo(location.x+SPACING * 0.5, location.y)
-    ctx.lineTo(location.x+SPACING * 0.5, location.y - SPACING * 0.5 * 5)
-    ctx.stroke()
+    if (NOTE_MODE > 1) {
+      ctx.beginPath() // rysowanie linii pionowej
+      ctx.moveTo(location.x+SPACING * 0.5, location.y)
+      ctx.lineTo(location.x+SPACING * 0.5, location.y - SPACING * 0.5 * 5)
+      ctx.stroke()
+    }
 
-    ctx.beginPath() // rysowanie horągiewki
-    ctx.moveTo(location.x+SPACING * 0.5, location.y - SPACING * 0.5 * 5)
-    ctx.bezierCurveTo(location.x + SPACING * 0.5 * 2, location.y-SPACING * 0.5 * 3,
-            location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 3,
-            location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 1)
-    ctx.bezierCurveTo(location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 2.7,
-            location.x + SPACING * 0.5 * 2, location.y-SPACING * 0.5 * 2.7,
-            location.x + SPACING * 0.5, location.y-SPACING * 0.5 * 4.5)
-    ctx.fill()
-    ctx.stroke()
+    if (NOTE_MODE > 3) {
+      ctx.beginPath() // rysowanie horągiewki
+      ctx.moveTo(location.x+SPACING * 0.5, location.y - SPACING * 0.5 * 5)
+      ctx.bezierCurveTo(location.x + SPACING * 0.5 * 2, location.y-SPACING * 0.5 * 3,
+              location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 3,
+              location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 1)
+      ctx.bezierCurveTo(location.x + SPACING * 0.5 * 2.5, location.y-SPACING * 0.5 * 2.7,
+              location.x + SPACING * 0.5 * 2, location.y-SPACING * 0.5 * 2.7,
+              location.x + SPACING * 0.5, location.y-SPACING * 0.5 * 4.5)
+      ctx.fill()
+      ctx.stroke()
+    }
 
     ctx.beginPath() // rysowanie kółka
     ctx.save() // zapis ustawień canvy
@@ -193,7 +198,7 @@ function drawNote(ctx, location) { // rysowanie nuty
     ctx.rotate(-0.2)
     ctx.scale(1.05, 0.8)
     ctx.arc(0, 0, SPACING * 0.5, 0, Math.PI*2)
-    ctx.fill()
+    if (NOTE_MODE > 2) ctx.fill()
     ctx.stroke()
     ctx.restore() // trzeba przywrócić ustawienia, żeby reszta rzeczy nie była przekręcona
 }
@@ -340,4 +345,29 @@ drag_mode_btn.addEventListener('click',() => {
 dual_mode_btn.addEventListener('click',() => {
   alert('dual mode')
   MODE = 3
+})
+
+var whole_note_btn = document.querySelector('.whole-note')
+var half_note_btn = document.querySelector('.half-note')
+var quarter_note_btn = document.querySelector('.quarter-note')
+var eight_note_btn = document.querySelector('.eight-note')
+
+whole_note_btn.addEventListener('click', () => {
+  NOTE_MODE = 1
+  alert('cala')
+})
+
+half_note_btn.addEventListener('click', () => {
+  NOTE_MODE = 2
+  alert('pol')
+})
+
+quarter_note_btn.addEventListener('click', () => {
+  NOTE_MODE = 3
+  alert('cwi')
+})
+
+eight_note_btn.addEventListener('click', () => {
+  NOTE_MODE = 4
+  alert('8')
 })
