@@ -156,7 +156,7 @@ function drawScene() { // rysowanie pięciolinii
         y: index*SPACING * 0.5
     }
 
-    drawNote(ctx, location)
+    if (MODE == 1 || MODE == 3) drawNote(ctx, location)
 
     for (let i=0; i<MOVING_NOTES.length; i++) {
         MOVING_NOTES[i].draw(ctx)
@@ -207,20 +207,20 @@ function drawClef(ctx, location) { // rysowanie klucza wiolinowego
 }
 
 function onMouseMove(event) {
-    if (MODE == 1) MOUSE.x = event.x
-    if (MODE == 1) MOUSE.y = event.y
+    if (MODE == 1 || MODE == 3) MOUSE.x = event.x
+    if (MODE == 1 || MODE == 3) MOUSE.y = event.y
 }
 
 function onMouseDown(event) {
-    if (MODE == 1) MOUSE.isDown = true
+    if (MODE == 1 || MODE == 3) MOUSE.isDown = true
 
-    if (MODE == 1) var movingNote = new MovingNote()
-    if (MODE == 1) movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
-    if (MODE == 1) MOVING_NOTES.push(movingNote)
+    if (MODE == 1 || MODE == 3) var movingNote = new MovingNote()
+    if (MODE == 1 || MODE == 3) movingNote.add1({x: MARGIN_RIGHT, y: MOUSE.y})
+    if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote)
 }
 
 function onMouseUp(event) {
-    if (MODE == 1) MOUSE.isDown = false
+    if (MODE == 1 || MODE == 3) MOUSE.isDown = false
 }
 
 
@@ -260,7 +260,7 @@ const playTune2 = (index) => {
     oscylator.connect(gainNode)
     gainNode.connect(AUDIO_CONTEXT.destination)*/
 
-    if (MODE == 0) {
+    if (MODE == 0 || MODE == 3) {
         var movingNote = new MovingNote()
         movingNote.add2(index)
         MOVING_NOTES.push(movingNote)
@@ -325,6 +325,7 @@ document.addEventListener("keydown", pressedKey);
 
 var piano_mode_btn = document.querySelector('.piano-mode')
 var drag_mode_btn = document.querySelector('.drag-mode')
+var dual_mode_btn = document.querySelector('.dual-mode')
 
 piano_mode_btn.addEventListener('click',() => {
     alert('piano mode')
@@ -334,4 +335,9 @@ piano_mode_btn.addEventListener('click',() => {
 drag_mode_btn.addEventListener('click',() => {
     alert('drag and play mode')
     MODE = 1
+})
+
+dual_mode_btn.addEventListener('click',() => {
+  alert('dual mode')
+  MODE = 3
 })
