@@ -1,31 +1,22 @@
 let CANVAS;
 let SPACING;
 
-
 let MODE = 1; // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
 let COMPOSE_MODE = 0; // tryb swobodny - 0, tryb układania melodii - 1
 let NOTE_MODE = 4; // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
 let REC_MODE = 0;
 
+let MARGIN_LEFT;
+let MARGIN_RIGHT;
 
-let MARGIN_LEFT
-let MARGIN_RIGHT
-
-let CLEF_IMAGE = new Image()
-CLEF_IMAGE.src = "treble-clef.png"
+let CLEF_IMAGE = new Image();
+CLEF_IMAGE.src = "treble-clef.png";
 
 let MOUSE = {
-    x: 0,
-    y: 0,
-    isDown: false
-}
-
-let SPEED = 0.005//0.0015
-
-let NOTES = ["E6", "D6", "C6", "B5", "A5", "G5", "F5",
-             "E5", "D5", "C5", "B4", "A4", "G4", "F4",
-             "E4", "D4", "C4", "B3", "A3", "G3", "F3"]
-
+  x: 0,
+  y: 0,
+  isDown: false,
+};
 
 let SPEED = 0.005; //0.0015
 
@@ -63,7 +54,7 @@ let MOVING_NOTES = [];
 let RECORDING = [];
 
 let AUDIO_CONTEXT;
-
+let sum = 0;
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
@@ -76,19 +67,7 @@ const showHideKeys = () => {
 
 keysCheckbox.addEventListener("click", showHideKeys);
 
-const pianoKeys = document.querySelectorAll(".piano_keys .key"),
-    volumeSlider = document.querySelector(".volume-slider input"),
-    keysCheckbox = document.querySelector(".keys-checkbox input");
-
-const showHideKeys = () => {
-    // alert("showHideKeys function called!");
-    pianoKeys.forEach(key => key.classList.toggle("hide"));
-}
-
-keysCheckbox.addEventListener("click", showHideKeys);
-
 class MovingNote {
-
   add1(location, value) {
     // stary konstruktor
 
@@ -118,12 +97,12 @@ class MovingNote {
     drawNote(ctx, this.location);
   }
 
-
-    draw(ctx) {
-        NOTE_MODE = this.value
-        drawNote(ctx, this.location)
+  play() {
+    if (AUDIO_CONTEXT == null) {
+      AUDIO_CONTEXT = new (AudioContext ||
+        webkitAudioContext ||
+        window.webkitAudioContext)();
     }
-
 
     let duration = 1;
     let oscylator = AUDIO_CONTEXT.createOscillator();
@@ -146,41 +125,39 @@ class MovingNote {
     oscylator.connect(gainNode);
     gainNode.connect(AUDIO_CONTEXT.destination);
   }
-
 }
 
-function main() { // główna funkcja
-    CANVAS = document.getElementById("myStaff")
-    addEventListeners()
-    fitToScreen()
-    animate()
+function main() {
+  // główna funkcja
+  CANVAS = document.getElementById("myStaff");
+  addEventListeners();
+  fitToScreen();
+  animate();
 }
 
 function animate() {
-
   updateMovingNotes();
   drawScene("black");
   window.requestAnimationFrame(animate);
 }
 
 function updateMovingNotes() {
-    for (let i=0; i<MOVING_NOTES.length; i++) {
-        MOVING_NOTES[i].location.x -= SPEED*CANVAS.width
-        if (MOVING_NOTES[i].location.x <= MARGIN_LEFT) {
-          MOVING_NOTES[i].play()
-          MOVING_NOTES.splice(i, 1)
-          i--
-        }
+  for (let i = 0; i < MOVING_NOTES.length; i++) {
+    MOVING_NOTES[i].location.x -= SPEED * CANVAS.width;
+    if (MOVING_NOTES[i].location.x <= MARGIN_LEFT) {
+      MOVING_NOTES[i].play();
+      MOVING_NOTES.splice(i, 1);
+      i--;
     }
+  }
 }
 
 function addEventListeners() {
-    CANVAS.addEventListener('mousemove', onMouseMove)
-    CANVAS.addEventListener('mousedown', onMouseDown)
-    CANVAS.addEventListener('mouseup', onMouseUp)
-    window.addEventListener('resize', fitToScreen)
+  CANVAS.addEventListener("mousemove", onMouseMove);
+  CANVAS.addEventListener("mousedown", onMouseDown);
+  CANVAS.addEventListener("mouseup", onMouseUp);
+  window.addEventListener("resize", fitToScreen);
 }
-
 
 function fitToScreen() {
   // ustala rozmiar canvy na cały ekran
@@ -189,7 +166,6 @@ function fitToScreen() {
 
   SPACING = CANVAS.height / 20; // odległości między liniami
 
-
   MARGIN_RIGHT = CANVAS.width * 0.8;
   MARGIN_LEFT = CANVAS.width * 0.2;
   MARGIN_TOP = CANVAS.height * 0.5; // Przesunięcie w górę do 5% wysokości
@@ -197,38 +173,38 @@ function fitToScreen() {
   drawScene();
 }
 
-function drawScene() { // rysowanie pięciolinii
-    let ctx = CANVAS.getContext("2d")
+function drawScene() {
+  // rysowanie pięciolinii
+  let ctx = CANVAS.getContext("2d");
 
-    ctx.clearRect(0, 0, CANVAS.width, CANVAS.height)
+  ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
-    ctx.strokeStyle = "black"
-    ctx.lineWidth = 1
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 1;
 
-    for (let i=-2; i<=2; i++) {
-        let y = CANVAS.height / 2 + i * SPACING
+  for (let i = -2; i <= 2; i++) {
+    let y = CANVAS.height / 2 + i * SPACING;
 
-        ctx.beginPath()
-        ctx.moveTo(0, y)
-        ctx.lineTo(CANVAS.width, y)
-        ctx.stroke()
-    }
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(CANVAS.width, y);
+    ctx.stroke();
+  }
 
-    let index = Math.round(MOUSE.y/SPACING*2)
-    
-    let location = {
-        x: MARGIN_RIGHT,
-        y: index*SPACING * 0.5
-    }
+  let index = Math.round((MOUSE.y / SPACING) * 2);
 
+  let location = {
+    x: MARGIN_RIGHT,
+    y: index * SPACING * 0.5,
+  };
 
   if (MODE == 1 || MODE == 3) drawNote(ctx, location);
 
-    for (let i=0; i<MOVING_NOTES.length; i++) {
-        MOVING_NOTES[i].draw(ctx)
-    }
+  for (let i = 0; i < MOVING_NOTES.length; i++) {
+    MOVING_NOTES[i].draw(ctx);
+  }
 
-    drawClef(ctx, {x: MARGIN_LEFT, y: CANVAS.height * 0.5})
+  drawClef(ctx, { x: MARGIN_LEFT, y: CANVAS.height * 0.5 });
 }
 
 function drawNote(ctx, location) {
@@ -279,16 +255,22 @@ function drawNote(ctx, location) {
   ctx.restore(); // trzeba przywrócić ustawienia, żeby reszta rzeczy nie była przekręcona
 }
 
-function drawClef(ctx, location) { // rysowanie klucza wiolinowego
-    let aspectRatio=CLEF_IMAGE.width/CLEF_IMAGE.height
-    let newHeight = CANVAS.height * 0.45
-    let newWidth = aspectRatio * newHeight
+function drawClef(ctx, location) {
+  // rysowanie klucza wiolinowego
+  let aspectRatio = CLEF_IMAGE.width / CLEF_IMAGE.height;
+  let newHeight = CANVAS.height * 0.45;
+  let newWidth = aspectRatio * newHeight;
 
-    ctx.drawImage(CLEF_IMAGE, location.x-newWidth/2, location.y-newHeight/2, newWidth, newHeight)
+  ctx.drawImage(
+    CLEF_IMAGE,
+    location.x - newWidth / 2,
+    location.y - newHeight / 2,
+    newWidth,
+    newHeight
+  );
 }
 
 function onMouseMove(event) {
-
   if (MODE == 1 || MODE == 3) MOUSE.x = event.x;
   if (MODE == 1 || MODE == 3) MOUSE.y = event.y;
 }
@@ -299,8 +281,9 @@ function onMouseDown(event) {
   if (MODE == 1 || MODE == 3) var movingNote = new MovingNote();
   if (MODE == 1 || MODE == 3) {
     movingNote.add1({ x: MARGIN_RIGHT, y: MOUSE.y }, NOTE_MODE);
+    console.log(REC_MODE, NOTE_MODE, MODE);
     if (REC_MODE) {
-      RECORDING.push(movingNote);
+      sum = recordSong(movingNote, sum);
       console.log(RECORDING);
     }
   }
@@ -315,14 +298,19 @@ function onMouseUp(event) {
 function addAutoNote(note, value, offset) {
   let index = NOTES.indexOf(note);
 
-
   var movingNote = new MovingNote();
   movingNote.add2(index, value, CANVAS.width + offset);
-
 
   MOVING_NOTES.push(movingNote);
 }
 
+function recordSong(movingNote, sum) {
+  if (NOTE_MODE === 1) RECORDING.push(movingNote, (sum += 70));
+  else if (NOTE_MODE === 2) RECORDING.push(movingNote, (sum += 45));
+  else if (NOTE_MODE === 3) RECORDING.push(movingNote, (sum += 25));
+  else if (NOTE_MODE === 4) RECORDING.push(movingNote, (sum += 10));
+  return sum;
+}
 
 let allKeys = [];
 //audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
@@ -540,16 +528,24 @@ record_btn.style.display = "None";
 play_btn.style.display = "None";
 
 record_btn.addEventListener("click", () => {
+  sum = 0;
+  while (RECORDING.length > 0) {
+    RECORDING.pop();
+  }
   REC_MODE = 1;
-  RECORDING = [];
   alert("rec");
 });
 
 play_btn.addEventListener("click", () => {
-  sum = 0;
+  REC_MODE = 0;
   for (i = 0; i <= RECORDING.length; i++) {
-    addAutoNote(RECORDING[i].note, RECORDING[i].value, i * 500);
+    addAutoNote(
+      RECORDING[i].note,
+      RECORDING[i].value,
+      RECORDING[i + 1] * CANVAS.width * SPEED * 4
+    );
   }
+
   // sum = 0;
   // addAutoNote("E4", 4, sum * CANVAS.width * SPEED * 4);
   // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
