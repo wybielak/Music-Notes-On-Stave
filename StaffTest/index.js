@@ -4,6 +4,7 @@ let SPACING;
 let MODE = 1; // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
 let COMPOSE_MODE = 0; // tryb swobodny - 0, tryb układania melodii - 1
 let NOTE_MODE = 4; // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
+
 let REC_MODE = 0; //nagrywanie - 1, odtwarzanie - 2;
 
 let MARGIN_LEFT;
@@ -54,7 +55,9 @@ let MOVING_NOTES = [];
 let RECORDING = [];
 
 let AUDIO_CONTEXT;
+
 let sum = 0;
+
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
@@ -290,6 +293,7 @@ function onMouseDown(event) {
   }
 
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
+
 }
 
 function onMouseUp(event) {

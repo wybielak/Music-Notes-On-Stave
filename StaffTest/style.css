@@ -1,214 +1,188 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600&display=swap");
 :root {
-    --first-color: hsl(14, 25%, 58%);
-    --black-color-light: hsl(209, 62%, 45%);
-    --white-color: hsl(0, 0%, 95%);
-    --title-color: hsl(217, 77%, 12%);
-    --text-color: hsl(0, 0%, 35%);
-    --text-color-light: hsl(0, 0%, 81%);
-    --body-color: hsl(0, 6%, 85%);
-
-    --body-font: 'Montserrat', sans-serif;
-    --biggest-font-size: 2.5rem;
-    --h1-font-size: 1.75rem;
-    --h2-font-size: 1.25rem;
-    --h3-font-size: 1.125rem;
-    --normal-font-size: .938rem;
-    --small-font-size: .813rem;
-    --smaller-font-size: .75rem;
-
-    --font-regular: 400;
-    --font-medium: 500;
-    --font-semi-bold: 600;
-    --font-bold: 700;
-
-    --z-tooltip: 10;
-    --z-fixed: 100;
+  --first-color: hsl(14, 25%, 58%);
+  --black-color-light: hsl(209, 62%, 45%);
+  --white-color: hsl(0, 0%, 95%);
+  --title-color: hsl(217, 77%, 12%);
+  --text-color: hsl(0, 0%, 35%);
+  --text-color-light: hsl(0, 0%, 81%);
+  --body-color: hsl(0, 6%, 85%);
+  --body-font: "Montserrat", sans-serif;
+  --biggest-font-size: 2.5rem;
+  --h1-font-size: 1.75rem;
+  --h2-font-size: 1.25rem;
+  --h3-font-size: 1.125rem;
+  --normal-font-size: 0.938rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+  --z-tooltip: 10;
+  --z-fixed: 100;
 }
-
 body {
-    margin: 0;
+  margin: 0;
 }
-
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
-
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
-
 body {
-    position: relative;
-    font-family: var(--body-font);
-    font-size: var(--normal-font-size);
-    background-color: var(--body-color);
-    color: var(--text-color);
+  position: relative;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background-color: var(--body-color);
+  color: var(--text-color);
 }
-
-h1, h2, h3, h4 {
-    color: var(--title-color);
-    font-weight: var(--font-bold);
+h1,
+h2,
+h3,
+h4 {
+  color: var(--title-color);
+  font-weight: var(--font-bold);
 }
-
 ul {
-    list-style: none;
+  list-style: none;
 }
-
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
-
 img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
-
 .hide span {
-    display: none;
+  display: none;
 }
-
 #myStaff {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 0;
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 0;
 }
-
 .wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    background-color: rgb(147, 126, 126);
-    border-radius: 2rem;
-    box-sizing: border-box;
-    transform: translate(-50%, -40%);
-    left: 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: rgb(147, 126, 126);
+  border-radius: 2rem;
+  box-sizing: border-box;
+  transform: translate(-50%, -40%);
+  left: 50%;
 }
-
 .wrapper header {
-    width: 60%;
-    top: 0rem;
-    color: aliceblue;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 60%;
+  top: 0rem;
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
 header .column {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-
 header h2 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-
 .wrapper span {
-    margin: 0.4rem;
-    font-size: 0.7rem;
-    font-weight: var(--font-medium);
+  margin: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: var(--font-medium);
 }
-
 .keys-checkbox input {
-    position: relative;
-    width: 3.5rem;
-    height: 1.55rem;
-    outline: none;
-    cursor: pointer;
-    border-radius: 2rem;
-    background-color: var(--body-color);
-    appearance: none;
+  position: relative;
+  width: 3.5rem;
+  height: 1.55rem;
+  outline: none;
+  cursor: pointer;
+  border-radius: 2rem;
+  background-color: var(--body-color);
+  appearance: none;
 }
-
 .keys-checkbox input::before {
-    content: "";
-    height: 1.16rem;
-    width: 1.16rem;
-    top: 50%;
-    left: 0.4rem;
-    border-radius: inherit;
-    transform: translateY(-50%);
-    position: absolute;
-    transition: all 0.3s ease;
-    background-color: var(--title-color);
+  content: "";
+  height: 1.16rem;
+  width: 1.16rem;
+  top: 50%;
+  left: 0.4rem;
+  border-radius: inherit;
+  transform: translateY(-50%);
+  position: absolute;
+  transition: all 0.3s ease;
+  background-color: var(--title-color);
 }
-
 .keys-checkbox input:checked::before {
-    left: 1.8rem;
-    background-color: var(--title-color);
+  left: 1.8rem;
+  background-color: var(--title-color);
 }
-
 .piano_keys {
-    position: relative;
-    color: aliceblue;
-    display: flex;
-    margin-top: 1.5rem;
-    text-transform: uppercase;
+  position: relative;
+  color: aliceblue;
+  display: flex;
+  margin-top: 1.5rem;
+  text-transform: uppercase;
 }
-
 .piano_keys .key {
-    cursor: pointer;
-    position: relative;
+  cursor: pointer;
+  position: relative;
 }
-
 .piano_keys .key .hide span {
-    display: none;
+  display: none;
 }
-
 .piano_keys .white {
-    width: 4.4rem;
-    height: 14.5rem;
-    border-radius: 0.55rem;
-    border: 1px solid #000;
-    background: linear-gradient(#fff 96%, #eee 4%);
+  width: 4.4rem;
+  height: 14.5rem;
+  border-radius: 0.55rem;
+  border: 1px solid #000;
+  background: linear-gradient(#fff 96%, #eee 4%);
 }
-
 .piano_keys .white:active {
-    box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+  box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
 }
-
 .piano_keys .black {
-    width: 2.6rem;
-    height: 9rem;
-    z-index: 2;
-    margin: 0 -22px 0 -22px;
-    border-radius: 0 0 0.55rem 0.55rem;
-    /*background: linear-gradient(#333 96%, #000 4%);*/
-    background: #4e4e4e;
+  width: 2.6rem;
+  height: 9rem;
+  z-index: 2;
+  margin: 0 -22px 0 -22px;
+  border-radius: 0 0 0.55rem 0.55rem;
+  /*background: linear-gradient(#333 96%, #000 4%);*/
+  background: #4e4e4e;
 }
-
 .piano_keys .black:active {
-    /*box-shadow: inset -5px 5px 10px rgba(255, 255, 255, 0.1);
+  /*box-shadow: inset -5px 5px 10px rgba(255, 255, 255, 0.1);
     background: linear-gradient(to bottom, #000, #444);*/
-    background: #4e4e4e;
+  background: #4e4e4e;
 }
-
 .piano_keys span {
-    position: absolute;
-    bottom: 1.3rem;
-    width: 100%;
-    font-size: 1.2rem;
-    text-align: center;
-    transform: translateX(-30%);
-    color: var(--text-color-light);
+  position: absolute;
+  bottom: 1.3rem;
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: center;
+  transform: translateX(-30%);
+  color: var(--text-color-light);
 }
 
 .chords p {
-    color: #000;
-    font-size: 20px;
+  color: #000;
+  font-size: 20px;
 }
 
-.note-mode button, .chords button {
-    font-size: 40px;
-    padding: 0 10px;
+.note-mode button,
+.chords button {
+  font-size: 40px;
+  padding: 0 10px;
 }
