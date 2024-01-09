@@ -58,7 +58,6 @@ let AUDIO_CONTEXT;
 
 let sum = 0;
 
-
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
   keysCheckbox = document.querySelector(".keys-checkbox input");
@@ -293,7 +292,6 @@ function onMouseDown(event) {
   }
 
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
-
 }
 
 function onMouseUp(event) {
