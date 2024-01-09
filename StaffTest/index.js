@@ -291,10 +291,6 @@ function onMouseDown(event) {
     }
   }
 
-  if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote);
-
-  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
-
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
 }
 
@@ -550,18 +546,14 @@ record_btn.addEventListener("click", () => {
 });
 
 play_btn.addEventListener("click", () => {
-  for (i = 0; i <= RECORDING.length; i++) {
-    addAutoNote(RECORDING[i].note, RECORDING[i].value, i * 500);
-
-    REC_MODE = 2;
-    for (i = 0; i < RECORDING.length; i++) {
-      console.log(RECORDING, i);
-      addAutoNote(
-        RECORDING[i][0].note,
-        RECORDING[i][0].value,
-        RECORDING[i][1] * CANVAS.width * SPEED * 4
-      );
-    }
+  REC_MODE = 2;
+  for (i = 0; i < RECORDING.length; i++) {
+    console.log(RECORDING, i);
+    addAutoNote(
+      RECORDING[i][0].note,
+      RECORDING[i][0].value,
+      RECORDING[i][1] * CANVAS.width * SPEED * 4
+    );
   }
 
   // sum = 0;
