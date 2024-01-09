@@ -550,12 +550,10 @@ play_btn.addEventListener("click", () => {
   for (i = 0; i < RECORDING.length; i++) {
     console.log(RECORDING, i);
     if (i === 0) {
-      addAutoNote(
-        RECORDING[i][0].note,
-        RECORDING[i][0].value,
-        RECORDING[i][1] * CANVAS.width * SPEED * 4
-      );
+      console.log(RECORDING[i][1]);
+      addAutoNote(RECORDING[i][0].note, RECORDING[i][0].value, RECORDING[i][1]);
     } else {
+      console.log(`${i} nutka`);
       addAutoNote(
         RECORDING[i][0].note,
         RECORDING[i][0].value,
