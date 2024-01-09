@@ -4,7 +4,8 @@ let SPACING;
 let MODE = 1; // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
 let COMPOSE_MODE = 0; // tryb swobodny - 0, tryb układania melodii - 1
 let NOTE_MODE = 4; // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
-let REC_MODE = 0;
+
+let REC_MODE = 0; //nagrywanie - 1, odtwarzanie - 2;
 
 let MARGIN_LEFT;
 let MARGIN_RIGHT;
@@ -54,6 +55,9 @@ let MOVING_NOTES = [];
 let RECORDING = [];
 
 let AUDIO_CONTEXT;
+
+let sum = 0;
+
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
@@ -275,21 +279,25 @@ function onMouseMove(event) {
 }
 
 function onMouseDown(event) {
-  if (MODE == 1 || MODE == 3) MOUSE.isDown = true;
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOUSE.isDown = true;
 
-  if (MODE == 1 || MODE == 3) var movingNote = new MovingNote();
-  if (MODE == 1 || MODE == 3) {
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2)
+    var movingNote = new MovingNote();
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) {
     movingNote.add1({ x: MARGIN_RIGHT, y: MOUSE.y }, NOTE_MODE);
+    console.log(REC_MODE, NOTE_MODE, MODE, COMPOSE_MODE);
     if (REC_MODE) {
-      RECORDING.push(movingNote);
+      sum = recordSong(movingNote, sum);
       console.log(RECORDING);
     }
   }
-  if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote);
+
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
+
 }
 
 function onMouseUp(event) {
-  if (MODE == 1 || MODE == 3) MOUSE.isDown = false;
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOUSE.isDown = false;
 }
 
 function addAutoNote(note, value, offset) {
@@ -299,6 +307,14 @@ function addAutoNote(note, value, offset) {
   movingNote.add2(index, value, CANVAS.width + offset);
 
   MOVING_NOTES.push(movingNote);
+}
+
+function recordSong(movingNote, sum) {
+  if (NOTE_MODE === 1) RECORDING.push([movingNote, (sum += 70)]);
+  else if (NOTE_MODE === 2) RECORDING.push([movingNote, (sum += 45)]);
+  else if (NOTE_MODE === 3) RECORDING.push([movingNote, (sum += 25)]);
+  else if (NOTE_MODE === 4) RECORDING.push([movingNote, (sum += 10)]);
+  return sum;
 }
 
 let allKeys = [];
@@ -336,9 +352,13 @@ const playTune2 = (index) => {
     oscylator.connect(gainNode)
     gainNode.connect(AUDIO_CONTEXT.destination)*/
 
-  if (MODE == 0 || MODE == 3) {
+  if ((MODE == 0 || MODE == 3) && REC_MODE != 2) {
     var movingNote = new MovingNote();
     movingNote.add2(index, NOTE_MODE);
+    if (REC_MODE) {
+      sum = recordSong(movingNote, sum);
+      console.log(RECORDING);
+    }
     MOVING_NOTES.push(movingNote);
   }
 };
@@ -496,6 +516,7 @@ var compose_btn = document.querySelector(".compose-mode");
 
 freeplay_btn.addEventListener("click", () => {
   COMPOSE_MODE = 0;
+  REC_MODE = 0;
   alert("free");
 
   record_btn.style.display = "None";
@@ -504,6 +525,7 @@ freeplay_btn.addEventListener("click", () => {
 
 compose_btn.addEventListener("click", () => {
   COMPOSE_MODE = 1;
+  REC_MODE = 0;
   alert("comp");
 
   record_btn.style.display = "inline-block";
@@ -517,15 +539,25 @@ record_btn.style.display = "None";
 play_btn.style.display = "None";
 
 record_btn.addEventListener("click", () => {
+  sum = 0;
+  while (RECORDING.length > 0) {
+    RECORDING.pop();
+  }
   REC_MODE = 1;
-  RECORDING = [];
   alert("rec");
 });
 
 play_btn.addEventListener("click", () => {
-  for (i = 0; i <= RECORDING.length; i++) {
-    addAutoNote(RECORDING[i].note, RECORDING[i].value, i * 500);
+  REC_MODE = 2;
+  for (i = 0; i < RECORDING.length; i++) {
+    console.log(RECORDING, i);
+    addAutoNote(
+      RECORDING[i][0].note,
+      RECORDING[i][0].value,
+      RECORDING[i][1] * CANVAS.width * SPEED * 4
+    );
   }
+
   // sum = 0;
   // addAutoNote("E4", 4, sum * CANVAS.width * SPEED * 4);
   // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
