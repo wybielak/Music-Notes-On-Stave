@@ -55,16 +55,8 @@ let MOVING_NOTES = [];
 let RECORDING = [];
 
 let AUDIO_CONTEXT;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-let sum = 0;
->>>>>>> Kuba_dev
-=======
 
 let sum = 0;
-
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
@@ -298,18 +290,12 @@ function onMouseDown(event) {
       console.log(RECORDING);
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote);
-=======
-
-  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
->>>>>>> Kuba_dev
-=======
 
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
 
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
 }
 
 function onMouseUp(event) {
@@ -325,11 +311,6 @@ function addAutoNote(note, value, offset) {
   MOVING_NOTES.push(movingNote);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 function recordSong(movingNote, sum) {
   if (NOTE_MODE === 1) RECORDING.push([movingNote, (sum += 70)]);
   else if (NOTE_MODE === 2) RECORDING.push([movingNote, (sum += 45)]);
@@ -338,10 +319,6 @@ function recordSong(movingNote, sum) {
   return sum;
 }
 
-<<<<<<< HEAD
->>>>>>> Kuba_dev
-=======
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 let allKeys = [];
 //audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
 
@@ -573,25 +550,18 @@ record_btn.addEventListener("click", () => {
 });
 
 play_btn.addEventListener("click", () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
   for (i = 0; i <= RECORDING.length; i++) {
     addAutoNote(RECORDING[i].note, RECORDING[i].value, i * 500);
-=======
-=======
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
-  REC_MODE = 2;
-  for (i = 0; i < RECORDING.length; i++) {
-    console.log(RECORDING, i);
-    addAutoNote(
-      RECORDING[i][0].note,
-      RECORDING[i][0].value,
-      RECORDING[i][1] * CANVAS.width * SPEED * 4
-    );
-<<<<<<< HEAD
->>>>>>> Kuba_dev
-=======
->>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
+
+    REC_MODE = 2;
+    for (i = 0; i < RECORDING.length; i++) {
+      console.log(RECORDING, i);
+      addAutoNote(
+        RECORDING[i][0].note,
+        RECORDING[i][0].value,
+        RECORDING[i][1] * CANVAS.width * SPEED * 4
+      );
+    }
   }
 
   // sum = 0;
