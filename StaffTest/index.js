@@ -4,6 +4,7 @@ let SPACING;
 let MODE = 1; // przełącza tryb piana i tryb drag and drop 0 - piano default 1 -drag and drop
 let COMPOSE_MODE = 0; // tryb swobodny - 0, tryb układania melodii - 1
 let NOTE_MODE = 4; // tryb nut - 4 - osemka, 3 - cwiartka, 2 - pol, 1 - cala
+
 let REC_MODE = 0; //nagrywanie - 1, odtwarzanie - 2;
 
 let MARGIN_LEFT;
@@ -55,9 +56,15 @@ let RECORDING = [];
 
 let AUDIO_CONTEXT;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 let sum = 0;
 >>>>>>> Kuba_dev
+=======
+
+let sum = 0;
+
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
   volumeSlider = document.querySelector(".volume-slider input"),
@@ -292,11 +299,17 @@ function onMouseDown(event) {
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (MODE == 1 || MODE == 3) MOVING_NOTES.push(movingNote);
 =======
 
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
 >>>>>>> Kuba_dev
+=======
+
+  if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) MOVING_NOTES.push(movingNote);
+
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 }
 
 function onMouseUp(event) {
@@ -313,7 +326,10 @@ function addAutoNote(note, value, offset) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 function recordSong(movingNote, sum) {
   if (NOTE_MODE === 1) RECORDING.push([movingNote, (sum += 70)]);
   else if (NOTE_MODE === 2) RECORDING.push([movingNote, (sum += 45)]);
@@ -322,7 +338,10 @@ function recordSong(movingNote, sum) {
   return sum;
 }
 
+<<<<<<< HEAD
 >>>>>>> Kuba_dev
+=======
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
 let allKeys = [];
 //audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
 
@@ -555,9 +574,12 @@ record_btn.addEventListener("click", () => {
 
 play_btn.addEventListener("click", () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   for (i = 0; i <= RECORDING.length; i++) {
     addAutoNote(RECORDING[i].note, RECORDING[i].value, i * 500);
 =======
+=======
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
   REC_MODE = 2;
   for (i = 0; i < RECORDING.length; i++) {
     console.log(RECORDING, i);
@@ -566,7 +588,10 @@ play_btn.addEventListener("click", () => {
       RECORDING[i][0].value,
       RECORDING[i][1] * CANVAS.width * SPEED * 4
     );
+<<<<<<< HEAD
 >>>>>>> Kuba_dev
+=======
+>>>>>>> c4f2d6e8d0f7e8ace32440bb72a32c76832e49df
   }
 
   // sum = 0;
