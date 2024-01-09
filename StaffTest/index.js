@@ -549,11 +549,19 @@ play_btn.addEventListener("click", () => {
   REC_MODE = 2;
   for (i = 0; i < RECORDING.length; i++) {
     console.log(RECORDING, i);
-    addAutoNote(
-      RECORDING[i][0].note,
-      RECORDING[i][0].value,
-      RECORDING[i][1] * CANVAS.width * SPEED * 4
-    );
+    if (i === 0) {
+      addAutoNote(
+        RECORDING[i][0].note,
+        RECORDING[i][0].value,
+        RECORDING[i][1] * CANVAS.width * SPEED * 4
+      );
+    } else {
+      addAutoNote(
+        RECORDING[i][0].note,
+        RECORDING[i][0].value,
+        RECORDING[i - 1][1] * CANVAS.width * SPEED * 4
+      );
+    }
   }
 
   // sum = 0;
