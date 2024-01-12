@@ -519,6 +519,8 @@ freeplay_btn.addEventListener("click", () => {
 
   record_btn.style.display = "None";
   play_btn.style.display = "None";
+  save_btn.style.display = "None";
+  file_input.style.display = "None";
 });
 
 compose_btn.addEventListener("click", () => {
@@ -528,37 +530,55 @@ compose_btn.addEventListener("click", () => {
 
   record_btn.style.display = "inline-block";
   play_btn.style.display = "inline-block";
+  save_btn.style.display = "inline-block";
+  file_input.style.display = "inline-block";
 });
 
 var record_btn = document.querySelector(".record-mode");
 var play_btn = document.querySelector(".play-mode");
+var save_btn = document.querySelector(".save-btn");
+var file_input = document.querySelector(".file-input");
 
 record_btn.style.display = "None";
 play_btn.style.display = "None";
+save_btn.style.display = "None";
+file_input.style.display = "None";
 
 record_btn.addEventListener("click", () => {
   sum = 0;
-  while (RECORDING.length > 0) {
-    RECORDING.pop();
+  if (MOVING_NOTES.length != 0) {
+    alert("Poczekaj aż piosenka przestanie grać!");
+  } else {
+    REC_MODE = 1;
+    alert("rec");
+    while (RECORDING.length > 0) {
+      RECORDING.pop();
+    }
   }
-  REC_MODE = 1;
-  alert("rec");
 });
 
 play_btn.addEventListener("click", () => {
   REC_MODE = 2;
-  for (i = 0; i < RECORDING.length; i++) {
-    console.log(RECORDING, i);
-    if (i === 0) {
-      console.log(RECORDING[i][1]);
-      addAutoNote(RECORDING[i][0].note, RECORDING[i][0].value, RECORDING[i][1]);
-    } else {
-      console.log(`${i} nutka`);
-      addAutoNote(
-        RECORDING[i][0].note,
-        RECORDING[i][0].value,
-        RECORDING[i - 1][1] * CANVAS.width * SPEED * 4
-      );
+  if (MOVING_NOTES.length != 0) {
+    alert("Poczekaj aż piosenka przestanie grać!");
+  } else {
+    for (i = 0; i < RECORDING.length; i++) {
+      console.log(RECORDING, i);
+      if (i === 0) {
+        console.log(RECORDING[i][1]);
+        addAutoNote(
+          RECORDING[i][0].note,
+          RECORDING[i][0].value,
+          RECORDING[i][1]
+        );
+      } else {
+        console.log(`${i} nutka`);
+        addAutoNote(
+          RECORDING[i][0].note,
+          RECORDING[i][0].value,
+          RECORDING[i - 1][1] * CANVAS.width * SPEED * 4
+        );
+      }
     }
   }
 
@@ -594,4 +614,36 @@ play_btn.addEventListener("click", () => {
 
   // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
   // addAutoNote("G4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+});
+
+save_btn.addEventListener("click", () => {
+  var jsonString = JSON.stringify(RECORDING, null, 2);
+  var blob = new Blob([jsonString], { type: "application/json" });
+  var link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = "saved_songs.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+file_input.addEventListener("change", () => {
+  var fileInput = event.target;
+  var file = fileInput.files[0];
+
+  if (file) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      try {
+        var jsonData = JSON.parse(e.target.result);
+
+        RECORDING = jsonData;
+        console.log(RECORDING);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+    reader.readAsText(file);
+  }
 });
