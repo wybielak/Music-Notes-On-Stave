@@ -581,39 +581,6 @@ play_btn.addEventListener("click", () => {
       }
     }
   }
-
-  // sum = 0;
-  // addAutoNote("E4", 4, sum * CANVAS.width * SPEED * 4);
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-
-  // addAutoNote("E4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
-
-  // addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("F4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
-
-  // addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
-  // addAutoNote("G4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
 });
 
 save_btn.addEventListener("click", () => {
@@ -646,4 +613,41 @@ file_input.addEventListener("change", () => {
     };
     reader.readAsText(file);
   }
+});
+
+var play_hallelujah = document.querySelector(".play-hallelujah");
+
+play_hallelujah.addEventListener("click", () => {
+  sum = 0;
+  addAutoNote("E4", 4, sum * CANVAS.width * SPEED * 4);
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("E4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("A4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("F4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
 });
