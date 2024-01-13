@@ -19,7 +19,7 @@ let MOUSE = {
   isDown: false,
 };
 
-let SPEED = 0.005; //0.0015
+let SPEED = 0.002//0.005; //0.0015
 
 let NOTES = [
   "E6",
@@ -616,6 +616,7 @@ file_input.addEventListener("change", () => {
 });
 
 var play_hallelujah = document.querySelector(".play-hallelujah");
+var play_houseofthe = document.querySelector(".play-houseofthe");
 
 play_hallelujah.addEventListener("click", () => {
   sum = 0;
@@ -650,4 +651,45 @@ play_hallelujah.addEventListener("click", () => {
 
   addAutoNote("G4", 3, (sum += 10 * CANVAS.width * SPEED * 4));
   addAutoNote("G4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+});
+
+play_houseofthe.addEventListener("click", () => {
+  sum = 0;
+  addAutoNote("G5", 3, sum * CANVAS.width * SPEED * 4);
+  addAutoNote("G5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("B4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("C5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("C5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("D5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 1, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("A5", 4, (sum += 70 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 1, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("G5", 3, (sum += 90 * CANVAS.width * SPEED * 4));
+  addAutoNote("G5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("B4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("C5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("C5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("D5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A4", 1, (sum += 10 * CANVAS.width * SPEED * 4));
+
+  addAutoNote("A5", 4, (sum += 70 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("A5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
+  addAutoNote("G5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 4, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("E5", 1, (sum += 10 * CANVAS.width * SPEED * 4));
 });
