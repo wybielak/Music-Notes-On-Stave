@@ -59,7 +59,7 @@ let AUDIO_CONTEXT;
 let sum = 0;
 
 const pianoKeys = document.querySelectorAll(".piano_keys .key"),
-  volumeSlider = document.querySelector(".volume-slider input"),
+  speedSlider = document.querySelector(".speed-slider input"),
   keysCheckbox = document.querySelector(".keys-checkbox input");
 
 const showHideKeys = () => {
@@ -370,8 +370,8 @@ pianoKeys.forEach((key) => {
   }
 });
 
-const handleVolume = (e) => {
-  audio.volume = e.target.value; // passing the range slider value as an audio volume
+const handleSpeed = (e) => {
+  SPEED = e.target.value; // passing the range slider value as an audio speed
 };
 
 // Mapa łącząca kody klawiszy z odpowiadającymi wartościami data-key
@@ -412,7 +412,7 @@ const pressedKey = (e) => {
   }
 };
 
-volumeSlider.addEventListener("input", handleVolume);
+speedSlider.addEventListener("input", handleSpeed);
 document.addEventListener("keydown", pressedKey);
 
 var piano_mode_btn = document.querySelector(".piano-mode");
@@ -655,8 +655,8 @@ play_hallelujah.addEventListener("click", () => {
 
 play_houseofthe.addEventListener("click", () => {
   sum = 0;
-  addAutoNote("G5", 3, sum * CANVAS.width * SPEED * 4);
-  addAutoNote("G5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
+  addAutoNote("G4", 3, sum * CANVAS.width * SPEED * 4);
+  addAutoNote("G4", 3, (sum += 30 * CANVAS.width * SPEED * 4));
   addAutoNote("B4", 4, (sum += 30 * CANVAS.width * SPEED * 4));
   addAutoNote("C5", 3, (sum += 10 * CANVAS.width * SPEED * 4));
   addAutoNote("C5", 3, (sum += 30 * CANVAS.width * SPEED * 4));
