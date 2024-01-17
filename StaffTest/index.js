@@ -19,7 +19,7 @@ let MOUSE = {
   isDown: false,
 };
 
-let SPEED = 0.002//0.005; //0.0015
+let SPEED = 0.002; //0.005; //0.0015
 
 let NOTES = [
   "E6",
@@ -316,40 +316,8 @@ function recordSong(movingNote, sum) {
 }
 
 let allKeys = [];
-//audio = new Audio(`tune/key01.wav`); // by default, audio src is "a" tune
-
-const playTune = (key) => {
-  audio.src = `tune/${key}.wav`; // passing audio src based on key pressed
-  audio.play(); // playing audio
-
-  const clickedKey = document.querySelector(`[data-key="${key}"]`); // getting clicked key element
-  clickedKey.classList.add("active"); // adding active class to the clicked key element
-  setTimeout(() => {
-    // removing active class after 150 ms from the clicked key element
-    clickedKey.classList.remove("active");
-  }, 150);
-};
 
 const playTune2 = (index) => {
-  /*if (AUDIO_CONTEXT == null) {
-        AUDIO_CONTEXT = new(AudioContext || webkitAudioContext || window.webkitAudioContext)()
-    }
-
-    let duration = 1
-    let oscylator = AUDIO_CONTEXT.createOscillator()
-    let gainNode = AUDIO_CONTEXT.createGain()
-
-    gainNode.gain.setValueAtTime(0, AUDIO_CONTEXT.currentTime)
-    gainNode.gain.linearRampToValueAtTime(0.4, AUDIO_CONTEXT.currentTime+0.05)
-    gainNode.gain.linearRampToValueAtTime(0, AUDIO_CONTEXT.currentTime+duration)
-
-    oscylator.type = "triangle"
-    oscylator.frequency.value = FREQ[index]
-    oscylator.start(AUDIO_CONTEXT.currentTime)
-    oscylator.stop(AUDIO_CONTEXT.currentTime+duration)
-    oscylator.connect(gainNode)
-    gainNode.connect(AUDIO_CONTEXT.destination)*/
-
   if ((MODE == 0 || MODE == 3) && REC_MODE != 2) {
     var movingNote = new MovingNote();
     movingNote.add2(index, NOTE_MODE);
@@ -359,10 +327,11 @@ const playTune2 = (index) => {
     }
     MOVING_NOTES.push(movingNote);
   }
+  console.log("PLAYTUNE2");
 };
 
 pianoKeys.forEach((key) => {
-  console.log(key);
+  console.log(key.dataset.key);
   if (key.dataset.key != "black") {
     allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
     // calling playTune function with passing data-key value as an argument
@@ -701,20 +670,20 @@ play_timeaftertime.addEventListener("click", () => {
   addAutoNote("F4", 2, sum * CANVAS.width * SPEED * 4);
   addAutoNote("A4", 2, sum * CANVAS.width * SPEED * 4);
   addAutoNote("C4", 2, sum * CANVAS.width * SPEED * 4);
-  
+
   addAutoNote("G4", 2, sum + 50 * CANVAS.width * SPEED * 4);
   addAutoNote("B4", 2, sum + 50 * CANVAS.width * SPEED * 4);
   addAutoNote("D4", 2, sum + 50 * CANVAS.width * SPEED * 4);
-  
+
   addAutoNote("E4", 2, sum + 100 * CANVAS.width * SPEED * 4);
   addAutoNote("G4", 2, sum + 100 * CANVAS.width * SPEED * 4);
   addAutoNote("B4", 2, sum + 100 * CANVAS.width * SPEED * 4);
-  
+
   addAutoNote("F4", 2, sum + 150 * CANVAS.width * SPEED * 4);
   addAutoNote("A4", 2, sum + 150 * CANVAS.width * SPEED * 4);
   addAutoNote("C4", 2, sum + 150 * CANVAS.width * SPEED * 4);
 
-  sum += 2250
+  sum += 2250;
 
   addAutoNote("D4", 3, (sum += 50 * CANVAS.width * SPEED * 4));
   addAutoNote("C4", 4, (sum += 30 * CANVAS.width * SPEED * 4));

@@ -48,7 +48,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   fitToScreen() {
     this.context.canvas.width = window.innerWidth;
-    this.context.canvas.height = window.innerHeight;
+    this.context.canvas.height = window.innerHeight * 0.7;
 
     const canvas = this.context.canvas;
     this.spacing = canvas.height / 20;

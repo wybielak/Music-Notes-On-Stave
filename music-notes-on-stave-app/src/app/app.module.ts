@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DescriptionComponent } from './description/description.component';
 import { MelodyMakerComponent } from './melody-maker/melody-maker.component';
 import { MainComponent } from './main/main.component';
+import { PianoComponent } from './piano/piano.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MainComponent } from './main/main.component';
     DescriptionComponent,
     MelodyMakerComponent,
     MainComponent,
+    PianoComponent,
   ],
   imports: [
     BrowserModule,
