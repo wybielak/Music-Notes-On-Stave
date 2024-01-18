@@ -284,7 +284,6 @@ function onMouseDown(event) {
     var movingNote = new MovingNote();
   if ((MODE == 1 || MODE == 3) && REC_MODE !== 2) {
     movingNote.add1({ x: MARGIN_RIGHT, y: MOUSE.y }, NOTE_MODE);
-    console.log(REC_MODE, NOTE_MODE, MODE, COMPOSE_MODE);
     if (REC_MODE) {
       sum = recordSong(movingNote, sum);
       console.log(RECORDING);
@@ -327,11 +326,9 @@ const playTune2 = (index) => {
     }
     MOVING_NOTES.push(movingNote);
   }
-  console.log(index);
 };
 
 pianoKeys.forEach((key) => {
-  console.log(key.dataset.key);
   if (key.dataset.key != "black") {
     allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
     // calling playTune function with passing data-key value as an argument

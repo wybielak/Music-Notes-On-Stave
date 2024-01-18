@@ -12,3 +12,29 @@
 /* Importing a particular font */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600&display=swap");
 
+:root {
+  --first-color: hsl(14, 25%, 58%);
+  --black-color-light: hsl(209, 62%, 45%);
+  --white-color: hsl(0, 0%, 95%);
+  --title-color: hsl(217, 77%, 12%);
+  --text-color: hsl(0, 0%, 35%);
+  --text-color-light: hsl(0, 0%, 81%);
+  --body-color: hsl(0, 6%, 85%);
+
+  --body-font: "Montserrat", sans-serif;
+  --biggest-font-size: 2.5rem;
+  --h1-font-size: 1.75rem;
+  --h2-font-size: 1.25rem;
+  --h3-font-size: 1.125rem;
+  --normal-font-size: 0.938rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem;
+
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+
+  --z-tooltip: 10;
+  --z-fixed: 100;
+}

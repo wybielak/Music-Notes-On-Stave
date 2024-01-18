@@ -5,7 +5,6 @@ import {
   HostListener,
   Output,
 } from '@angular/core';
-import { MovingNote } from '../melody-maker/models/MovingNote';
 
 @Component({
   selector: 'app-piano',
@@ -56,6 +55,18 @@ export class PianoComponent implements AfterViewInit {
     this.pianoKeys = document.querySelectorAll('.piano_keys .key');
     this.volumeSlider = document.querySelector('.volume-slider input');
     this.keysCheckbox = document.querySelector('.keys-checkbox input');
+
+    this.pianoKeys.forEach((key) => {
+      if (key.dataset['key'] !== 'black') {
+        const keyMapping = this.keyMap.find((entry) =>
+          entry.hasOwnProperty(key.dataset['key']),
+        );
+        if (keyMapping) {
+          const dataKey = keyMapping[key.dataset['key']];
+          key.addEventListener('click', () => this.indexEmitter.emit(dataKey));
+        }
+      }
+    });
   }
 
   showHideKeys() {
@@ -69,8 +80,19 @@ export class PianoComponent implements AfterViewInit {
     );
 
     if (keyMapping) {
+      console.log(keyMapping);
       const dataKey = keyMapping[key];
       this.indexEmitter.emit(dataKey);
     }
+  }
+
+  //this method enables scaling the piano component template
+  scaleElements(scaleFactor?: number) {
+    const elementsToScale = document.querySelectorAll(
+      '.wrapper, .piano_keys, .white, .black, span',
+    );
+    elementsToScale.forEach((element: HTMLElement) => {
+      element.style.transform = `scale(${scaleFactor})`;
+    });
   }
 }
