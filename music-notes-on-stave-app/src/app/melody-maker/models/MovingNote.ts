@@ -1,5 +1,6 @@
 import { DrawingService } from '../services/drawing.service';
 import { Location } from './Location';
+import { Mode } from './Mode';
 
 export class MovingNote {
   protected audioContext: AudioContext;
@@ -35,14 +36,36 @@ export class MovingNote {
   ];
 
   constructor(
-    public location: Location,
+    private mode: Mode,
     private spacing: number,
     private drawingService: DrawingService,
+    private index?: number,
+    private x?: number,
+    public location?: Location,
   ) {
-    const index = Math.round((this.location.y / this.spacing) * 2);
-    this.frequency = this.freq[index - Math.round(this.notes.length / 2) + 1];
-    this.note = this.notes[index - Math.round(this.notes.length / 2) + 1];
-    this.location.y = index * this.spacing * 0.5;
+    console.log(mode);
+    switch (mode) {
+      case Mode.DRAG_AND_PLAY:
+        console.log(location);
+        const _index = Math.round((this.location.y / this.spacing) * 2);
+        this.frequency =
+          this.freq[_index - Math.round(this.notes.length / 2) + 1];
+        this.note = this.notes[_index - Math.round(this.notes.length / 2) + 1];
+        this.location.y = _index * this.spacing * 0.5;
+        break;
+
+      case Mode.PIANO:
+        index = index + Math.round(this.notes.length / 2) - 1;
+        this.frequency =
+          this.freq[index - Math.round(this.notes.length / 2) + 1];
+        this.note = this.notes[index - Math.round(this.notes.length / 2) + 1];
+        this.location = {
+          x: x,
+          y: index * this.spacing * 0.5,
+        };
+        break;
+      // this.value = value;
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D) {

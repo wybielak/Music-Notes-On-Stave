@@ -327,7 +327,7 @@ const playTune2 = (index) => {
     }
     MOVING_NOTES.push(movingNote);
   }
-  console.log("PLAYTUNE2");
+  console.log(index);
 };
 
 pianoKeys.forEach((key) => {

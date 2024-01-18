@@ -10,6 +10,7 @@ import { DrawingService } from './services/drawing.service';
 import { Location } from './models/Location';
 import { MovingNote } from './models/MovingNote';
 import { Mouse } from './models/Mouse';
+import { Mode } from './models/Mode';
 
 @Component({
   selector: 'melody-maker',
@@ -38,9 +39,15 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
       this.mouse.isDown = true;
       this.movingNotes.push(
         new MovingNote(
-          { x: this.marginRight, y: event.y },
+          Mode.DRAG_AND_PLAY,
           this.spacing,
           this.drawingService,
+          undefined,
+          undefined,
+          {
+            x: this.marginRight,
+            y: event.y,
+          },
         ),
       );
     }
@@ -150,5 +157,17 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
         i--;
       }
     }
+  }
+
+  playTune(index: number) {
+    const movingNote = new MovingNote(
+      Mode.PIANO,
+      this.spacing,
+      this.drawingService,
+      index,
+      this.marginRight,
+    );
+
+    this.movingNotes.push(movingNote);
   }
 }

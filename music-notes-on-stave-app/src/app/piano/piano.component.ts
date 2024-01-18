@@ -13,13 +13,11 @@ import { MovingNote } from '../melody-maker/models/MovingNote';
   styleUrls: ['./piano.component.scss'],
 })
 export class PianoComponent implements AfterViewInit {
-  @Output() keyPressed = new EventEmitter<string>();
+  @Output() indexEmitter = new EventEmitter<number>();
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     this.pressedKey(event);
-    const pressedKey = event.key;
-    this.keyPressed.emit(pressedKey);
   }
 
   protected pianoKeys: NodeListOf<HTMLInputElement>;
@@ -64,16 +62,7 @@ export class PianoComponent implements AfterViewInit {
     this.pianoKeys.forEach((key) => key.classList.toggle('hide'));
   }
 
-  // playTune(key: string) {
-  //   console.log(key);
-  //   const movingNote = new MovingNote();
-  //   movingNote.add2(index, NOTE_MODE);
-    
-  //   MOVING_NOTES.push(movingNote);
-  // }
-
   pressedKey(event: KeyboardEvent): void {
-    console.log('Key pressed:', event.key);
     const key = event.key;
     const keyMapping = this.keyMap.find(
       (entry) => entry.hasOwnProperty(key) && key !== 'black',
@@ -81,7 +70,7 @@ export class PianoComponent implements AfterViewInit {
 
     if (keyMapping) {
       const dataKey = keyMapping[key];
-      // this.playTune(dataKey);
+      this.indexEmitter.emit(dataKey);
     }
   }
 }
