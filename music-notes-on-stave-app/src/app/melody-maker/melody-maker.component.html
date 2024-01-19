@@ -1,4 +1,4 @@
 <div>
   <canvas #myStaff></canvas>
-  <app-piano (indexEmitter)="playTune($event)"></app-piano>
+  <app-piano (indexEmitter)="playTune($event)" (speedEmitter)="handleSpeed($event)"></app-piano>
 </div>

@@ -170,4 +170,8 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
     this.movingNotes.push(movingNote);
   }
+
+  handleSpeed(speed: number) {
+    this.speed = speed;
+  }
 }

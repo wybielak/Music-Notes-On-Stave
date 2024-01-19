@@ -344,7 +344,7 @@ const handleSpeed = (e) => {
 const keyMap = {
   q: 16,
   black: "",
-  w: 15,
+  w: 15, 
   black: "",
   e: 14,
   r: 13,

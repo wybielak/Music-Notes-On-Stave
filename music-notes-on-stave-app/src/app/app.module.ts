@@ -10,6 +10,7 @@ import { DescriptionComponent } from './description/description.component';
 import { MelodyMakerComponent } from './melody-maker/melody-maker.component';
 import { MainComponent } from './main/main.component';
 import { PianoComponent } from './piano/piano.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PianoComponent } from './piano/piano.component';
     AppRoutingModule,
     NgbModule,
     BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

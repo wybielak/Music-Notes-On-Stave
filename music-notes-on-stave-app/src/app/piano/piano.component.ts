@@ -13,6 +13,7 @@ import {
 })
 export class PianoComponent implements AfterViewInit {
   @Output() indexEmitter = new EventEmitter<number>();
+  @Output() speedEmitter = new EventEmitter<number>();
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -20,7 +21,8 @@ export class PianoComponent implements AfterViewInit {
   }
 
   protected pianoKeys: NodeListOf<HTMLInputElement>;
-  protected volumeSlider: HTMLInputElement;
+  protected speedSlider: HTMLInputElement;
+  protected sliderValue: number;
   protected keysCheckbox: HTMLInputElement;
   protected allKeys = [];
   protected audio = undefined;
@@ -53,7 +55,7 @@ export class PianoComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.pianoKeys = document.querySelectorAll('.piano_keys .key');
-    this.volumeSlider = document.querySelector('.volume-slider input');
+    this.speedSlider = document.querySelector('.speed-slider input');
     this.keysCheckbox = document.querySelector('.keys-checkbox input');
 
     this.pianoKeys.forEach((key) => {
@@ -66,6 +68,10 @@ export class PianoComponent implements AfterViewInit {
           key.addEventListener('click', () => this.indexEmitter.emit(dataKey));
         }
       }
+    });
+
+    this.speedSlider.addEventListener('click', () => {
+      this.speedEmitter.emit(this.sliderValue);
     });
   }
 
