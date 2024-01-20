@@ -10,7 +10,7 @@ import { DrawingService } from './services/drawing.service';
 import { Location } from './models/Location';
 import { MovingNote } from './models/MovingNote';
 import { Mouse } from './models/Mouse';
-import { Mode } from './models/Mode';
+import { Mode, NoteMode } from './models/Mode';
 
 @Component({
   selector: 'melody-maker',
@@ -40,6 +40,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
       this.movingNotes.push(
         new MovingNote(
           Mode.DRAG_AND_PLAY,
+          this.noteMode,
           this.spacing,
           this.drawingService,
           undefined,
@@ -72,6 +73,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected movingNotes: MovingNote[] = [];
   protected clefImage = new Image();
 
+  protected noteMode: NoteMode = NoteMode.FULL;
   protected speed: number = 0.005;
   protected spacing: number = 0;
   protected marginRight: number = 0;
@@ -116,7 +118,12 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     this.location.x = this.marginRight;
     this.location.y = index * this.spacing * 0.5;
 
-    this.drawingService.drawNote(this.context, this.location, this.spacing);
+    this.drawingService.drawNote(
+      this.context,
+      this.location,
+      this.spacing,
+      this.noteMode,
+    );
 
     for (let i = 0; i < this.movingNotes.length; i++) {
       this.movingNotes[i].draw(this.context);
@@ -162,6 +169,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   playTune(index: number) {
     const movingNote = new MovingNote(
       Mode.PIANO,
+      this.noteMode,
       this.spacing,
       this.drawingService,
       index,
@@ -173,5 +181,22 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   handleSpeed(speed: number) {
     this.speed = speed;
+  }
+
+  changeNoteMode(mode: number) {
+    switch (mode) {
+      case 1:
+        this.noteMode = NoteMode.FULL;
+        break;
+      case 2:
+        this.noteMode = NoteMode.HALF;
+        break;
+      case 3:
+        this.noteMode = NoteMode.QUARTER;
+        break;
+      case 4:
+        this.noteMode = NoteMode.EIGHT;
+        break;
+    }
   }
 }

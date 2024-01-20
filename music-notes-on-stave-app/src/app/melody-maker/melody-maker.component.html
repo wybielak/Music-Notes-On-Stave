@@ -1,4 +1,8 @@
 <div>
+  <button class="btn" (click)="changeNoteMode(4)">𝅝</button>
+  <button class="btn" (click)="changeNoteMode(3)">𝅗𝅥</button>
+  <button class="btn" (click)="changeNoteMode(2)">𝅘𝅥</button>
+  <button class="btn" (click)="changeNoteMode(1)">𝅘𝅥𝅮</button>
   <canvas #myStaff></canvas>
   <app-piano (indexEmitter)="playTune($event)" (speedEmitter)="handleSpeed($event)"></app-piano>
 </div>

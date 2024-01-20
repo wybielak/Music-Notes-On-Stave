@@ -1,6 +1,6 @@
 import { DrawingService } from '../services/drawing.service';
 import { Location } from './Location';
-import { Mode } from './Mode';
+import { Mode, NoteMode } from './Mode';
 
 export class MovingNote {
   protected audioContext: AudioContext;
@@ -11,6 +11,7 @@ export class MovingNote {
     246.942, 220, 195.998, 174.614,
   ];
   protected note: string = '';
+  protected noteMode: NoteMode = NoteMode.FULL;
   protected notes: string[] = [
     'E6',
     'D6',
@@ -37,13 +38,14 @@ export class MovingNote {
 
   constructor(
     private mode: Mode,
+    private _noteMode: NoteMode,
     private spacing: number,
     private drawingService: DrawingService,
     private index?: number,
-    private x?: number,
+    private margin?: number,
     public location?: Location,
   ) {
-    console.log(mode);
+    this.noteMode = _noteMode;
     switch (mode) {
       case Mode.DRAG_AND_PLAY:
         console.log(location);
@@ -60,16 +62,15 @@ export class MovingNote {
           this.freq[index - Math.round(this.notes.length / 2) + 1];
         this.note = this.notes[index - Math.round(this.notes.length / 2) + 1];
         this.location = {
-          x: x,
+          x: margin,
           y: index * this.spacing * 0.5,
         };
         break;
-      // this.value = value;
     }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    this.drawingService.drawNote(ctx, this.location, this.spacing);
+    this.drawingService.drawNote(ctx, this.location, this.spacing, this.noteMode);
   }
 
   play() {

@@ -5,8 +5,8 @@ export enum Mode {
 }
 
 export enum NoteMode {
-  EIGHT = 4,
-  QUARTER = 3,
-  HALF = 2,
-  FULL = 1,
+  EIGHT = 1,
+  QUARTER = 2,
+  HALF = 3,
+  FULL = 4,
 }
