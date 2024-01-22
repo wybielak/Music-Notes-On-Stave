@@ -1,8 +1,10 @@
 import { DrawingService } from '../services/drawing.service';
+import { NotesService } from '../services/notes.service';
 import { Location } from './Location';
 import { Mode, NoteMode } from './Mode';
 
 export class MovingNote {
+  
   protected audioContext: AudioContext;
   protected frequency: number = 0;
   protected freq: number[] = [
@@ -12,35 +14,13 @@ export class MovingNote {
   ];
   protected note: string = '';
   protected noteMode: NoteMode = NoteMode.FULL;
-  protected notes: string[] = [
-    'E6',
-    'D6',
-    'C6',
-    'B5',
-    'A5',
-    'G5',
-    'F5',
-    'E5',
-    'D5',
-    'C5',
-    'B4',
-    'A4',
-    'G4',
-    'F4',
-    'E4',
-    'D4',
-    'C4',
-    'B3',
-    'A3',
-    'G3',
-    'F3',
-  ];
 
   constructor(
     private mode: Mode,
     private _noteMode: NoteMode,
     private spacing: number,
     private drawingService: DrawingService,
+    private notesService: NotesService,
     private index?: number,
     private margin?: number,
     public location?: Location,
@@ -51,16 +31,16 @@ export class MovingNote {
         console.log(location);
         const _index = Math.round((this.location.y / this.spacing) * 2);
         this.frequency =
-          this.freq[_index - Math.round(this.notes.length / 2) + 1];
-        this.note = this.notes[_index - Math.round(this.notes.length / 2) + 1];
+          this.freq[_index - Math.round(this.notesService.notes.length / 2) + 1];
+        this.note = this.notesService.notes[_index - Math.round(this.notesService.notes.length / 2) + 1];
         this.location.y = _index * this.spacing * 0.5;
         break;
 
       case Mode.PIANO:
-        index = index + Math.round(this.notes.length / 2) - 1;
+        index = index + Math.round(this.notesService.notes.length / 2) - 1;
         this.frequency =
-          this.freq[index - Math.round(this.notes.length / 2) + 1];
-        this.note = this.notes[index - Math.round(this.notes.length / 2) + 1];
+          this.freq[index - Math.round(this.notesService.notes.length / 2) + 1];
+        this.note = this.notesService.notes[index - Math.round(this.notesService.notes.length / 2) + 1];
         this.location = {
           x: margin,
           y: index * this.spacing * 0.5,
@@ -70,7 +50,12 @@ export class MovingNote {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    this.drawingService.drawNote(ctx, this.location, this.spacing, this.noteMode);
+    this.drawingService.drawNote(
+      ctx,
+      this.location,
+      this.spacing,
+      this.noteMode,
+    );
   }
 
   play() {

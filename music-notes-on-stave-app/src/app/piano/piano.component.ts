@@ -12,6 +12,7 @@ import {
   styleUrls: ['./piano.component.scss'],
 })
 export class PianoComponent implements AfterViewInit {
+  @Output() autoNoteEmitter = new EventEmitter<string>();
   @Output() indexEmitter = new EventEmitter<number>();
   @Output() speedEmitter = new EventEmitter<number>();
 

@@ -17,6 +17,17 @@ body {
   margin: 0;
 }
 
+.btn {
+  background-color: var(--body-color);
+  margin-right: 10px;
+  width: 50px;
+}
+
+.chords p {
+  color: #000;
+  font-size: 20px;
+}
+
 h1,
 h2,
 h3,
@@ -60,7 +71,7 @@ img {
   background-color: rgb(147, 126, 126);
   border-radius: 2rem;
   box-sizing: border-box;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
   left: 50%;
 }
 

@@ -11,6 +11,7 @@ import { Location } from './models/Location';
 import { MovingNote } from './models/MovingNote';
 import { Mouse } from './models/Mouse';
 import { Mode, NoteMode } from './models/Mode';
+import { NotesService } from './services/notes.service';
 
 @Component({
   selector: 'melody-maker',
@@ -43,6 +44,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
           this.noteMode,
           this.spacing,
           this.drawingService,
+          this.notesService,
           undefined,
           undefined,
           {
@@ -79,7 +81,10 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected marginRight: number = 0;
   protected marginLeft: number = 0;
 
-  constructor(private drawingService: DrawingService) {
+  constructor(
+    private drawingService: DrawingService,
+    private notesService: NotesService,
+  ) {
     this.clefImage.src = '../../assets/images/treble-clef.png';
 
     this.animate = this.animate.bind(this);
@@ -172,6 +177,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
       this.noteMode,
       this.spacing,
       this.drawingService,
+      this.notesService,
       index,
       this.marginRight,
     );
@@ -198,5 +204,87 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
         this.noteMode = NoteMode.EIGHT;
         break;
     }
+  }
+
+  addAutoNote(note: string, mode: NoteMode, offset: number) {
+    const index = this.notesService.notes.indexOf(note);
+    const movingNote = new MovingNote(
+      Mode.PIANO,
+      mode,
+      this.spacing,
+      this.drawingService,
+      this.notesService,
+      index,
+      this.canvas.nativeElement.width + offset,
+    );
+    this.movingNotes.push(movingNote);
+  }
+
+  playAutoNote(name: string) {
+    switch (name) {
+      case 'C':
+        this.Cchord();
+        break;
+      case 'Dm':
+        this.Dmchord();
+        break;
+      case 'Em':
+        this.Emchord();
+        break;
+      case 'F':
+        this.Fchord();
+        break;
+      case 'G':
+        this.Gchord();
+        break;
+      case 'Am':
+        this.Amchord();
+        break;
+      case 'Hdim':
+        this.Hdimchord();
+        break;
+    }
+  }
+
+  Cchord() {
+    this.addAutoNote('C4', this.noteMode, 0);
+    this.addAutoNote('E4', this.noteMode, 0);
+    this.addAutoNote('G4', this.noteMode, 0);
+  }
+
+  Dmchord() {
+    this.addAutoNote('D4', this.noteMode, 0);
+    this.addAutoNote('F4', this.noteMode, 0);
+    this.addAutoNote('A4', this.noteMode, 0);
+  }
+
+  Emchord() {
+    this.addAutoNote('E4', this.noteMode, 0);
+    this.addAutoNote('G4', this.noteMode, 0);
+    this.addAutoNote('B4', this.noteMode, 0);
+  }
+
+  Fchord() {
+    this.addAutoNote('F4', this.noteMode, 0);
+    this.addAutoNote('A4', this.noteMode, 0);
+    this.addAutoNote('C4', this.noteMode, 0);
+  }
+
+  Gchord() {
+    this.addAutoNote('G4', this.noteMode, 0);
+    this.addAutoNote('B4', this.noteMode, 0);
+    this.addAutoNote('D4', this.noteMode, 0);
+  }
+
+  Amchord() {
+    this.addAutoNote('A4', this.noteMode, 0);
+    this.addAutoNote('C4', this.noteMode, 0);
+    this.addAutoNote('E4', this.noteMode, 0);
+  }
+
+  Hdimchord() {
+    this.addAutoNote('B4', this.noteMode, 0);
+    this.addAutoNote('D4', this.noteMode, 0);
+    this.addAutoNote('F4', this.noteMode, 0);
   }
 }

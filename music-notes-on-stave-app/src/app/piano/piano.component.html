@@ -1,10 +1,27 @@
 <div class="section__piano"></div>
 <div class="wrapper">
+  <div class="chords">
+    <p>Chords:</p>
+    <button class="btn" (click)="autoNoteEmitter.emit('C')">C</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('Dm')">Dm</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('Em')">Em</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('F')">F</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('G')">G</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('Am')">Am</button>
+    <button class="btn" (click)="autoNoteEmitter.emit('Hdim')">Hdim</button>
+  </div>
   <header>
     <h2>PlayPiano</h2>
     <div class="column speed-slider">
       <span>Speed</span
-      ><input type="range" [(ngModel)]="sliderValue" min="0.001" max="0.005" value="0.002" step="0.001" />
+      ><input
+        type="range"
+        [(ngModel)]="sliderValue"
+        min="0.001"
+        max="0.005"
+        value="0.002"
+        step="0.001"
+      />
     </div>
     <div class="column keys-checkbox">
       <span>Show keys</span
