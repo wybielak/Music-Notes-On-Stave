@@ -1,8 +1,55 @@
-<div>
-  <button class="btn" (click)="changeNoteMode(4)">𝅝</button>
-  <button class="btn" (click)="changeNoteMode(3)">𝅗𝅥</button>
-  <button class="btn" (click)="changeNoteMode(2)">𝅘𝅥</button>
-  <button class="btn" (click)="changeNoteMode(1)">𝅘𝅥𝅮</button>
+<div class="grid">
+  <div class="row">
+    <div class="col-4">
+      <button class="btn" (click)="changeNoteMode(4)">𝅝</button>
+      <button class="btn" (click)="changeNoteMode(3)">𝅗𝅥</button>
+      <button class="btn" (click)="changeNoteMode(2)">𝅘𝅥</button>
+      <button class="btn" (click)="changeNoteMode(1)">𝅘𝅥𝅮</button>
+    </div>
+
+    <div class="col-3 offset-4">
+      <div class="btn-group col-9" dropdown>
+        <button
+          id="button-disabled-menu"
+          dropdownToggle
+          type="button"
+          class="btn btn-block dropdown-toggle"
+          aria-controls="dropdown-disabled-menu"
+        >
+          <span *ngIf="chosenSong.value">{{ chosenSong.value.toString() }}</span
+          ><span *ngIf="!chosenSong.value">Choose a song</span>
+          <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-disabled-menu"
+          *dropdownMenu
+          class="dropdown-menu"
+          role="menu"
+          aria-labelledby="button-disabled-menu"
+        >
+          <li role="menuitem">
+            <a class="dropdown-item" (click)="setSongToBePlayed(1)"
+              >Hallelujah</a
+            >
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" (click)="setSongToBePlayed(2)"
+              >House of the rising sun</a
+            >
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" (click)="setSongToBePlayed(3)"
+              >Time after time</a
+            >
+          </li>
+        </ul>
+      </div>
+      <button type="button" class="btn" ngbTooltip="Play" (click)="playSong()">
+        ⏵
+      </button>
+    </div>
+  </div>
+
   <canvas #myStaff></canvas>
   <app-piano
     (indexEmitter)="playTune($event)"

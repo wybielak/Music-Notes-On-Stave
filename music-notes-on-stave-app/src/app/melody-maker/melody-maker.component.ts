@@ -10,8 +10,9 @@ import { DrawingService } from './services/drawing.service';
 import { Location } from './models/Location';
 import { MovingNote } from './models/MovingNote';
 import { Mouse } from './models/Mouse';
-import { Mode, NoteMode } from './models/Mode';
+import { Mode, NoteMode, Song } from './models/Mode';
 import { NotesService } from './services/notes.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'melody-maker',
@@ -75,6 +76,9 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected movingNotes: MovingNote[] = [];
   protected clefImage = new Image();
 
+  protected chosenSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(
+    undefined,
+  );
   protected noteMode: NoteMode = NoteMode.FULL;
   protected speed: number = 0.005;
   protected spacing: number = 0;
@@ -206,6 +210,34 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setSongToBePlayed(song: number) {
+    switch (song) {
+      case 1:
+        this.chosenSong.next(Song.HALLELUJAH);
+        break;
+      case 2:
+        this.chosenSong.next(Song.HOUSE_OF_THE_RISING_SUN);
+        break;
+      case 3:
+        this.chosenSong.next(Song.TIME_AFTER_TIME);
+        break;
+    }
+  }
+
+  playSong() {
+    switch (this.chosenSong.value) {
+      case Song.HALLELUJAH:
+        this.hallelujah();
+        break;
+      case Song.HOUSE_OF_THE_RISING_SUN:
+        this.houseOfTheRisingSky();
+        break;
+      case Song.TIME_AFTER_TIME:
+        this.timeAfterTime();
+        break;
+    }
+  }
+
   addAutoNote(note: string, mode: NoteMode, offset: number) {
     const index = this.notesService.notes.indexOf(note);
     const movingNote = new MovingNote(
@@ -286,5 +318,578 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     this.addAutoNote('B4', this.noteMode, 0);
     this.addAutoNote('D4', this.noteMode, 0);
     this.addAutoNote('F4', this.noteMode, 0);
+  }
+
+  hallelujah() {
+    let sum = 0;
+    this.addAutoNote(
+      'E4',
+      4,
+      sum * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'E4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'A4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'F4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+  }
+
+  houseOfTheRisingSky() {
+    let sum = 0;
+    this.addAutoNote(
+      'G4',
+      3,
+      sum * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'G4',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'B4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'D5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      1,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'A5',
+      4,
+      (sum += 70 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      1,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 70 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'B4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'D5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A4',
+      1,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'A5',
+      4,
+      (sum += 70 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'A5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'G5',
+      3,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E5',
+      1,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+  }
+
+  timeAfterTime() {
+    let sum = 0;
+
+    this.addAutoNote(
+      'F4',
+      2,
+      sum * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'A4',
+      2,
+      sum * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'C4',
+      2,
+      sum * this.canvas.nativeElement.width * this.speed * 4,
+    );
+
+    this.addAutoNote(
+      'G4',
+      2,
+      sum + 50 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'B4',
+      2,
+      sum + 50 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'D4',
+      2,
+      sum + 50 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+
+    this.addAutoNote(
+      'E4',
+      2,
+      sum + 100 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'G4',
+      2,
+      sum + 100 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'B4',
+      2,
+      sum + 100 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+
+    this.addAutoNote(
+      'F4',
+      2,
+      sum + 150 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'A4',
+      2,
+      sum + 150 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+    this.addAutoNote(
+      'C4',
+      2,
+      sum + 150 * this.canvas.nativeElement.width * this.speed * 4,
+    );
+
+    sum += 2250;
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 50 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 60 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'D4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      4,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'C4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+
+    this.addAutoNote(
+      'D4',
+      3,
+      (sum += 35 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      3,
+      (sum += 10 * this.canvas.nativeElement.width * this.speed * 4),
+    );
+    this.addAutoNote(
+      'E4',
+      4,
+      (sum += 30 * this.canvas.nativeElement.width * this.speed * 4),
+    );
   }
 }

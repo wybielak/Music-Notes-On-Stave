@@ -10,3 +10,9 @@ export enum NoteMode {
   HALF = 3,
   FULL = 4,
 }
+
+export enum Song {
+  HALLELUJAH = 'Hallelujah',
+  HOUSE_OF_THE_RISING_SUN = 'House of the rising sun',
+  TIME_AFTER_TIME = 'Time after time',
+}
