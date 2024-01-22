@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-image: url('../../assets/images/BackgroundImage.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+  background-size: cover; /* This ensures that the background image covers the entire component */
+  background-position: center; /* This centers the background image */
+  /* Add any other styling you need for your component */
+}
