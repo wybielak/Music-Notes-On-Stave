@@ -219,6 +219,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   record() {
     this.playingMode = false;
+    this.recordingMode = false;
     if (this.movingNotes.length === 0) {
       this.recordingMode = true;
       while (this.recording.length > 0) this.recording.pop();
@@ -258,6 +259,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   playRecordedSong() {
     this.playingMode = true;
+    this.recordingMode = false;
     if (this.movingNotes.length === 0) {
       for (let i = 0; i < this.recording.length; i++) {
         if (i === 0) {
@@ -337,7 +339,6 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   addAutoNote(note: string, mode: NoteMode, offset: number) {
     const index = this.notesService.notes.indexOf(note);
-    console.log();
     const movingNote = new MovingNote(
       Mode.PIANO,
       mode,

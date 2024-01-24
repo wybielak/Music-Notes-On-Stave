@@ -1,14 +1,17 @@
 <div class="grid">
   <div class="row">
     <div class="col-4">
-      <h3>Choose the note type</h3>
+      <h3>Choose the note type:</h3>
       <button class="btn" (click)="changeNoteMode(4)">𝅝</button>
       <button class="btn" (click)="changeNoteMode(3)">𝅗𝅥</button>
       <button class="btn" (click)="changeNoteMode(2)">𝅘𝅥</button>
       <button class="btn" (click)="changeNoteMode(1)">𝅘𝅥𝅮</button>
     </div>
 
-    <div class="col-4 offset-4" *ngIf="mode === pianoMode">
+    <div
+      class="col-4 offset-4"
+      *ngIf="mode === pianoMode; else recordSignTemplate"
+    >
       <div class="btn-group col-9" dropdown>
         <button
           id="button-disabled-menu"
@@ -49,6 +52,28 @@
         PLAY⏵
       </button>
     </div>
+    <ng-template #recordSignTemplate>
+      <div class="col-1 offset-7" *ngIf="recordingMode">
+        <h2>
+          <span style="color: red">REC </span
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="red"
+            class="bi bi-vinyl-fill"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M8 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4m0 3a1 1 0 1 1 0-2 1 1 0 0 1 0 2"
+            />
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0"
+            />
+          </svg>
+        </h2>
+      </div>
+    </ng-template>
   </div>
 
   <div class="col12"><canvas #myStaff></canvas></div>
@@ -63,7 +88,7 @@
   <ng-template #recordingTemplate>
     <div class="grid">
       <div class="card col-6 offset-3">
-        <div class="grid offset-2">
+        <div class="offset-2">
           <button
             class="btn col-4"
             (click)="
@@ -78,7 +103,21 @@
           >
             Compose mode
           </button>
+
+          <div class="offset-3 mt-3">
+            <span>Speed </span>
+            <input
+              type="range"
+              class="ml-3"
+              [(ngModel)]="speed"
+              min="0.001"
+              max="0.005"
+              value="0.002"
+              step="0.001"
+            />
+          </div>
         </div>
+
         <div class="grid mt-5">
           <button
             class="btn col-2"
@@ -124,6 +163,7 @@
           </button>
           <input
             type="file"
+            [disabled]="!composeMode"
             class="file-input"
             accept=".json"
             (change)="inputFile($event)"
