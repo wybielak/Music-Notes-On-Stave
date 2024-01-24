@@ -15,6 +15,7 @@ import { Mode, NoteMode, Song } from './models/Mode';
 import { NotesService } from './services/notes.service';
 import { BehaviorSubject } from 'rxjs';
 import { Recording } from './models/Recording';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'melody-maker',
@@ -106,6 +107,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   constructor(
     private drawingService: DrawingService,
     private notesService: NotesService,
+    private toast: ToastrService,
   ) {
     this.clefImage.src = '../../assets/images/treble-clef.png';
 
@@ -227,6 +229,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   }
 
   save() {
+    this.toast.success('Saved to file');
     const jsonString = JSON.stringify(this.recording, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const link = document.createElement('a');
@@ -258,6 +261,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   }
 
   playRecordedSong() {
+    this.toast.info('Playing recorded music');
     this.playingMode = true;
     this.recordingMode = false;
     if (this.movingNotes.length === 0) {
@@ -307,6 +311,20 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
         this.noteMode = NoteMode.EIGHT;
         break;
     }
+    this.toast.info('Note mode changed');
+  }
+
+  compose() {
+    this.composeMode = true;
+    this.playingMode = false;
+    this.toast.info('Compose mode entered');
+  }
+
+  freePlay() {
+    this.composeMode = false;
+    this.recordingMode = false;
+    this.playingMode = false;
+    this.toast.info('Free play mode entered');
   }
 
   setSongToBePlayed(song: number) {

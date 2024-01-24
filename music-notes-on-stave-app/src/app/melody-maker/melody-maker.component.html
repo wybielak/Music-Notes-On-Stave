@@ -89,20 +89,8 @@
     <div class="grid">
       <div class="card col-6 offset-3">
         <div class="offset-2">
-          <button
-            class="btn col-4"
-            (click)="
-              composeMode = false; recordingMode = false; playingMode = false
-            "
-          >
-            Free play mode
-          </button>
-          <button
-            class="btn col-4"
-            (click)="composeMode = true; playingMode = false"
-          >
-            Compose mode
-          </button>
+          <button class="btn col-4" (click)="freePlay()">Free play mode</button>
+          <button class="btn col-4" (click)="compose()">Compose mode</button>
 
           <div class="offset-3 mt-3">
             <span>Speed </span>

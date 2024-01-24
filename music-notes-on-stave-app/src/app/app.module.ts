@@ -13,6 +13,7 @@ import { PianoComponent } from './piano/piano.component';
 import { FormsModule } from '@angular/forms';
 import { DragAndPlayComponent } from './drag-and-play/drag-and-play.component';
 import { PlayPianoComponent } from './play-piano/play-piano.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PlayPianoComponent } from './play-piano/play-piano.component';
     BrowserAnimationsModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
