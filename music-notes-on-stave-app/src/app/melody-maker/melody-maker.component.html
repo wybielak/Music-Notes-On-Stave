@@ -1,6 +1,7 @@
 <div class="grid">
   <div class="row">
     <div class="col-4">
+      <h3>Choose the note type</h3>
       <button class="btn" (click)="changeNoteMode(4)">𝅝</button>
       <button class="btn" (click)="changeNoteMode(3)">𝅗𝅥</button>
       <button class="btn" (click)="changeNoteMode(2)">𝅘𝅥</button>
@@ -59,5 +60,76 @@
     (speedEmitter)="handleSpeed($event)"
     (autoNoteEmitter)="playAutoNote($event)"
   ></app-piano>
-  <ng-template #recordingTemplate>Hi</ng-template>
+  <ng-template #recordingTemplate>
+    <div class="grid">
+      <div class="card col-6 offset-3">
+        <div class="grid offset-2">
+          <button
+            class="btn col-4"
+            (click)="
+              composeMode = false; recordingMode = false; playingMode = false
+            "
+          >
+            Free play mode
+          </button>
+          <button
+            class="btn col-4"
+            (click)="composeMode = true; playingMode = false"
+          >
+            Compose mode
+          </button>
+        </div>
+        <div class="grid mt-5">
+          <button
+            class="btn col-2"
+            [disabled]="!composeMode"
+            (click)="record()"
+          >
+            Rec
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="brown"
+              class="bi bi-record-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10"
+              />
+            </svg>
+          </button>
+          <button
+            class="btn col-2"
+            [disabled]="!composeMode"
+            (click)="playRecordedSong()"
+          >
+            Play ⏵
+          </button>
+          <button class="btn col-2" [disabled]="!composeMode" (click)="save()">
+            Save
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-floppy2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"
+              />
+            </svg>
+          </button>
+          <input
+            type="file"
+            class="file-input"
+            accept=".json"
+            (change)="inputFile($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

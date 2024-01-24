@@ -12,8 +12,8 @@ export class MovingNote {
     523.251, 493.883, 436.04, 392.44, 349.228, 329.628, 293.665, 261.626,
     246.942, 220, 195.998, 174.614,
   ];
-  protected note: string = '';
-  protected noteMode: NoteMode = NoteMode.FULL;
+  public note: string = '';
+  public noteMode: NoteMode = NoteMode.FULL;
 
   constructor(
     private mode: Mode,
@@ -25,10 +25,10 @@ export class MovingNote {
     private margin?: number,
     public location?: Location,
   ) {
+    console.log(location);
     this.noteMode = _noteMode;
     switch (mode) {
       case Mode.DRAG_AND_PLAY:
-        console.log(location);
         const _index = Math.round((this.location.y / this.spacing) * 2);
         this.frequency =
           this.freq[_index - Math.round(this.notesService.notes.length / 2) + 1];

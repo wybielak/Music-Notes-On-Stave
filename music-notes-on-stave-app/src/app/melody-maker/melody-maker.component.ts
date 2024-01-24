@@ -14,6 +14,7 @@ import { Mouse } from './models/Mouse';
 import { Mode, NoteMode, Song } from './models/Mode';
 import { NotesService } from './services/notes.service';
 import { BehaviorSubject } from 'rxjs';
+import { Recording } from './models/Recording';
 
 @Component({
   selector: 'melody-maker',
@@ -34,28 +35,30 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   }
   @HostListener('window:mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
-    if (this.mode === Mode.DRAG_AND_PLAY) {
+    if (this.mode === Mode.DRAG_AND_PLAY && !this.playingMode) {
       const staffCenterY = this.context.canvas.height / 2;
       const validMinY = staffCenterY - 5 * this.spacing;
       const validMaxY = staffCenterY + 5 * this.spacing;
+      const movingNote = new MovingNote(
+        Mode.DRAG_AND_PLAY,
+        this.noteMode,
+        this.spacing,
+        this.drawingService,
+        this.notesService,
+        undefined,
+        undefined,
+        {
+          x: this.marginRight,
+          y: event.y,
+        },
+      );
 
       if (event.y >= validMinY && event.y <= validMaxY) {
         this.mouse.isDown = true;
-        this.movingNotes.push(
-          new MovingNote(
-            Mode.DRAG_AND_PLAY,
-            this.noteMode,
-            this.spacing,
-            this.drawingService,
-            this.notesService,
-            undefined,
-            undefined,
-            {
-              x: this.marginRight,
-              y: event.y,
-            },
-          ),
-        );
+        this.movingNotes.push(movingNote);
+        if (this.recordingMode) {
+          this.sum = this.recordSong(movingNote, this.sum);
+        }
       }
     }
   }
@@ -78,10 +81,15 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected dragAndPlayMode: Mode = Mode.DRAG_AND_PLAY;
   protected pianoMode: Mode = Mode.PIANO;
 
+  protected composeMode: boolean = false;
+  protected recordingMode: boolean = false;
+  protected playingMode: boolean = false;
+
   protected context: CanvasRenderingContext2D;
   protected mouse: Mouse = new Mouse();
   protected location: Location = new Location();
   protected movingNotes: MovingNote[] = [];
+  protected recording: Recording[] = [];
   protected clefImage = new Image();
 
   protected chosenSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(
@@ -92,6 +100,8 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   protected spacing: number = 0;
   protected marginRight: number = 0;
   protected marginLeft: number = 0;
+
+  protected sum: number = 0;
 
   constructor(
     private drawingService: DrawingService,
@@ -196,11 +206,88 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
       this.marginRight,
     );
 
+    if (this.recordingMode) {
+      this.sum = this.recordSong(movingNote, this.sum);
+    }
+
     this.movingNotes.push(movingNote);
   }
 
   handleSpeed(speed: number) {
     this.speed = speed;
+  }
+
+  record() {
+    this.playingMode = false;
+    if (this.movingNotes.length === 0) {
+      this.recordingMode = true;
+      while (this.recording.length > 0) this.recording.pop();
+    }
+  }
+
+  save() {
+    const jsonString = JSON.stringify(this.recording, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'saved_songs.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  inputFile(event: any) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const jsonData = JSON.parse(e.target.result as string);
+          this.recording = jsonData;
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      };
+
+      reader.readAsText(file);
+    }
+  }
+
+  playRecordedSong() {
+    this.playingMode = true;
+    if (this.movingNotes.length === 0) {
+      for (let i = 0; i < this.recording.length; i++) {
+        if (i === 0) {
+          this.addAutoNote(
+            this.recording[i].movingNote.note,
+            this.recording[i].movingNote.noteMode,
+            this.recording[i].sum,
+          );
+        } else {
+          this.addAutoNote(
+            this.recording[i].movingNote.note,
+            this.recording[i].movingNote.noteMode,
+            this.recording[i - 1].sum *
+              this.canvas.nativeElement.width *
+              this.speed *
+              4,
+          );
+        }
+      }
+    }
+  }
+
+  recordSong(movingNote: MovingNote, sum: number) {
+    if (this.noteMode === NoteMode.EIGHT) sum += 70;
+    if (this.noteMode === NoteMode.QUARTER) sum += 45;
+    if (this.noteMode === NoteMode.HALF) sum += 25;
+    if (this.noteMode === NoteMode.FULL) sum += 10;
+
+    this.recording.push({ movingNote: movingNote, sum: sum });
+    return sum;
   }
 
   changeNoteMode(mode: number) {
@@ -250,8 +337,9 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   addAutoNote(note: string, mode: NoteMode, offset: number) {
     const index = this.notesService.notes.indexOf(note);
+    console.log();
     const movingNote = new MovingNote(
-      this.mode,
+      Mode.PIANO,
       mode,
       this.spacing,
       this.drawingService,

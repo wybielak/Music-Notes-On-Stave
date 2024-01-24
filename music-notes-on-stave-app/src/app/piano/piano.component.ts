@@ -87,7 +87,6 @@ export class PianoComponent implements AfterViewInit {
     );
 
     if (keyMapping) {
-      console.log(keyMapping);
       const dataKey = keyMapping[key];
       this.indexEmitter.emit(dataKey);
     }

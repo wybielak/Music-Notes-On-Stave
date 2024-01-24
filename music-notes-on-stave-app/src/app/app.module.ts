@@ -7,7 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DescriptionComponent } from './description/description.component';
 import { MelodyMakerComponent } from './melody-maker/melody-maker.component';
 import { MainComponent } from './main/main.component';
 import { PianoComponent } from './piano/piano.component';
@@ -19,7 +18,6 @@ import { PlayPianoComponent } from './play-piano/play-piano.component';
   declarations: [
     AppComponent,
     NavBarComponent,
-    DescriptionComponent,
     MelodyMakerComponent,
     MainComponent,
     PianoComponent,
