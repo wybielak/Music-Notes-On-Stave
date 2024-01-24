@@ -7,7 +7,7 @@
       <button class="btn" (click)="changeNoteMode(1)">𝅘𝅥𝅮</button>
     </div>
 
-    <div class="col-3 offset-4">
+    <div class="col-4 offset-4" *ngIf="mode === pianoMode">
       <div class="btn-group col-9" dropdown>
         <button
           id="button-disabled-menu"
@@ -45,15 +45,19 @@
         </ul>
       </div>
       <button type="button" class="btn" ngbTooltip="Play" (click)="playSong()">
-        ⏵
+        PLAY⏵
       </button>
     </div>
   </div>
 
+  <div class="col12"><canvas #myStaff></canvas></div>
+  <div class="col12"></div>
   <canvas #myStaff></canvas>
   <app-piano
+    *ngIf="mode === pianoMode; else recordingTemplate"
     (indexEmitter)="playTune($event)"
     (speedEmitter)="handleSpeed($event)"
     (autoNoteEmitter)="playAutoNote($event)"
   ></app-piano>
+  <ng-template #recordingTemplate>Hi</ng-template>
 </div>

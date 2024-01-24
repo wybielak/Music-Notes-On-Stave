@@ -12,6 +12,8 @@ import { MelodyMakerComponent } from './melody-maker/melody-maker.component';
 import { MainComponent } from './main/main.component';
 import { PianoComponent } from './piano/piano.component';
 import { FormsModule } from '@angular/forms';
+import { DragAndPlayComponent } from './drag-and-play/drag-and-play.component';
+import { PlayPianoComponent } from './play-piano/play-piano.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { FormsModule } from '@angular/forms';
     MelodyMakerComponent,
     MainComponent,
     PianoComponent,
+    DragAndPlayComponent,
+    PlayPianoComponent,
   ],
   imports: [
     BrowserModule,

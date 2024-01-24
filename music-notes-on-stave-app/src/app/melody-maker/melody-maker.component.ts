@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -33,33 +34,35 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   }
   @HostListener('window:mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
-    const staffCenterY = this.context.canvas.height / 2;
-    const validMinY = staffCenterY - 5 * this.spacing;
-    const validMaxY = staffCenterY + 5 * this.spacing;
+    if (this.mode === Mode.DRAG_AND_PLAY) {
+      const staffCenterY = this.context.canvas.height / 2;
+      const validMinY = staffCenterY - 5 * this.spacing;
+      const validMaxY = staffCenterY + 5 * this.spacing;
 
-    if (event.y >= validMinY && event.y <= validMaxY) {
-      this.mouse.isDown = true;
-      this.movingNotes.push(
-        new MovingNote(
-          Mode.DRAG_AND_PLAY,
-          this.noteMode,
-          this.spacing,
-          this.drawingService,
-          this.notesService,
-          undefined,
-          undefined,
-          {
-            x: this.marginRight,
-            y: event.y,
-          },
-        ),
-      );
+      if (event.y >= validMinY && event.y <= validMaxY) {
+        this.mouse.isDown = true;
+        this.movingNotes.push(
+          new MovingNote(
+            Mode.DRAG_AND_PLAY,
+            this.noteMode,
+            this.spacing,
+            this.drawingService,
+            this.notesService,
+            undefined,
+            undefined,
+            {
+              x: this.marginRight,
+              y: event.y,
+            },
+          ),
+        );
+      }
     }
   }
   @HostListener('window:resize', ['$event'])
   fitToScreen() {
     this.context.canvas.width = window.innerWidth;
-    this.context.canvas.height = window.innerHeight * 0.7;
+    this.context.canvas.height = window.innerHeight * 0.5;
 
     const canvas = this.context.canvas;
     this.spacing = canvas.height / 20;
@@ -69,6 +72,11 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
     this.drawScene();
   }
+
+  @Input() mode: Mode = Mode.PIANO;
+
+  protected dragAndPlayMode: Mode = Mode.DRAG_AND_PLAY;
+  protected pianoMode: Mode = Mode.PIANO;
 
   protected context: CanvasRenderingContext2D;
   protected mouse: Mouse = new Mouse();
@@ -127,12 +135,14 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
     this.location.x = this.marginRight;
     this.location.y = index * this.spacing * 0.5;
 
-    this.drawingService.drawNote(
-      this.context,
-      this.location,
-      this.spacing,
-      this.noteMode,
-    );
+    if (this.mode === Mode.DRAG_AND_PLAY) {
+      this.drawingService.drawNote(
+        this.context,
+        this.location,
+        this.spacing,
+        this.noteMode,
+      );
+    }
 
     for (let i = 0; i < this.movingNotes.length; i++) {
       this.movingNotes[i].draw(this.context);
@@ -177,7 +187,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
 
   playTune(index: number) {
     const movingNote = new MovingNote(
-      Mode.PIANO,
+      this.mode,
       this.noteMode,
       this.spacing,
       this.drawingService,
@@ -241,7 +251,7 @@ export class MelodyMakerComponent implements OnInit, AfterViewInit {
   addAutoNote(note: string, mode: NoteMode, offset: number) {
     const index = this.notesService.notes.indexOf(note);
     const movingNote = new MovingNote(
-      Mode.PIANO,
+      this.mode,
       mode,
       this.spacing,
       this.drawingService,
